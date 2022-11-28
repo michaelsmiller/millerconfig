@@ -1,0 +1,30 @@
+#!/bin/bash
+
+usage() {
+  echo "usage: $0 <filename>"
+  exit 1
+}
+
+if [[ $# -ne 1 ]]; then
+  usage
+fi
+
+filepath="$1"
+
+# Get extension
+filename=$(basename -- "$filepath")
+extension="${filename##*.}"
+
+# If file is Markdown, we will want to display it with Grip and view in Browser
+if [[ "$extension" == "md" ]]; then
+  # Uncomment below line if you actually want to view in GitHub format
+  # Otherwise, xdg-open actually just displays markdown correctly.
+  # grip "$filepath"
+  xdg-open "$filepath"
+# If file is not Markdown, assume it is an image and display with xdg-open
+elif [[ "$extension" == "csv" ]]; then
+  # Gets rid of annoying document recovery screen when opening CSVs
+  libreoffice --calc --norestore -o "$filepath"
+else
+  xdg-open "$filepath"
+fi
