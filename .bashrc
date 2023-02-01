@@ -195,6 +195,8 @@ export GOROOT=/usr/lib/go
 # >>> \c apalis_dev_local;
 #########  ##########
 
+# Apalis
+APALIS_DEBUG="true"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
