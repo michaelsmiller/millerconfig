@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This pprints all the color256 color codes, starting with the basic 16 ANSI colors.
+# very easy way of quickly seeing which ones are which
+
 color(){
     for c; do
         printf '\e[48;5;%dm%03d' $c $c

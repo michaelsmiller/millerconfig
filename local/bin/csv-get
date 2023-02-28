@@ -1,0 +1,139 @@
+#!/usr/bin/env python
+# TODO: use a specific environment in the shebang or maybe have a wrapper script
+
+from collections import OrderedDict
+from collections.abc import Iterable
+from typing import Optional
+from argparse import ArgumentParser
+from pathlib import Path
+from dataclasses import dataclass
+import re
+
+CsvType = list[OrderedDict[str, str]]
+
+# NOTE: need to do parsing into lines beforehand because of Windows nonsense,
+# better to do it at the stage of the file
+def parse_csv(lines : list[str]) -> CsvType:
+    if len(lines) == 0:
+        return {}
+
+    # TODO: use regexes to parse quoted entries and unquoted entries alike, do not just naively split a line unless there are no quotes
+    def split_line(line : str) -> list[str]:
+        # TODO: make sure always strip()
+        return [c.strip() for c in line.split(",")]
+
+    header = lines.pop(0)
+    titles = split_line(header)
+    # print(f"Titles: {titles}")
+    n = len(titles)
+
+    output = []
+    for line in lines:
+        # ignore empty lines
+        if not line:
+            continue
+        columns = split_line(line)
+        assert len(columns) == n
+        line_dict = OrderedDict.fromkeys(titles) # ensures order is preserved
+        for k,v in zip(titles, columns):
+            line_dict[k] = v
+        output.append(line_dict)
+    return output
+
+def get_titles(rows : CsvType) -> list[str]:
+    assert len(rows) > 0
+    titles = list(rows[0].keys())
+    # all lines must have titles in the same order
+    assert all(list(row.keys()) == titles for row in rows)
+    return titles
+
+
+
+def normalize_key(titles : list[str], key : str) -> str:
+    for title in titles:
+        if key.lower() == title.lower():
+            return title
+    assert False
+
+def normalize_keys(titles : list[str], keys : list[str]) -> list[str]:
+    output = []
+    for key in keys:
+        output.append(normalize_key(titles, key))
+    return output
+
+@dataclass
+class Condition:
+    column : str
+    value : str
+
+def normalize_condition(titles: list[str], condition : Condition) -> Condition:
+    condition.column = normalize_key(titles, condition.column)
+    return condition
+
+
+def print_csv(rows : CsvType, titles_to_print : list[str]) -> str:
+    titles = get_titles(rows)
+    # Check each title and fix capitalization mistakes
+    titles_to_print = [normalize_key(titles, t) for t in titles_to_print]
+    title_max_lengths = [len(x) for x in titles_to_print]
+    column_max_lengths = [max(len(row[k]) for row in rows) for k in titles_to_print]
+    max_lengths = [2+max(n, m) for n,m in zip(title_max_lengths, column_max_lengths)]
+
+    def print_line(columns : list[str]) -> int:
+        assert len(columns) == len(max_lengths)
+        columns = [s.center(n) for s,n in zip(columns, max_lengths)]
+        line = "|".join(columns)
+        line = f"|{line}|"
+        print(line)
+        return len(line)
+
+    line_length = len(titles_to_print) + 1 + sum(max_lengths)
+    print("-"*line_length)
+    line_length = print_line(titles_to_print)
+    print("-"*line_length)
+    for row in rows:
+        print_line([row[k] for k in titles_to_print])
+
+
+def filter_csv(rows : CsvType, conditions : list[Condition]) -> CsvType:
+    if not conditions:
+        return rows
+
+    titles = get_titles(rows)
+    for condition in conditions:
+        condition = normalize_condition(titles, condition)
+        rows = [row for row in rows if row[condition.column] == condition.value]
+    return rows
+
+
+def main(filename : str, columns : Optional[list[str]] = None, conditions : Optional[list[Condition]] = None, list_titles : bool = False):
+    if conditions is None:
+        conditions = []
+
+    with open(filename) as f:
+        lines = [line for line in f]
+    csv = parse_csv(lines)
+    if list_titles:
+        print(get_titles(csv))
+        return
+    csv = filter_csv(csv, conditions)
+    if not csv:
+        return
+    columns = columns or get_titles(csv) # default is all columns
+    print_csv(csv, columns)
+
+if __name__ == "__main__":
+    parser = ArgumentParser()
+    parser.add_argument('filename')
+    parser.add_argument('--columns')
+    parser.add_argument('--conditions')
+    parser.add_argument('--list-titles', action="store_true", default=False)
+
+    args = parser.parse_args()
+    columns = args.columns.split(",") if args.columns is not None else []
+
+    elements = args.conditions.split(",") if args.conditions is not None else []
+    assert len(elements) % 2 == 0
+    conditions = [Condition(elements[i], elements[i+1]) for i in range(0, len(elements), 2)]
+
+    main(args.filename, columns=columns, conditions=conditions, list_titles = args.list_titles)

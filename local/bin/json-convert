@@ -3,10 +3,13 @@
 import json
 from sys import argv
 
+def usage() -> str:
+    print(f"usage: {__name__} <json_filename>")
+    print("A program for converting jsons to a legible indented format")
+    sys.exit(0)
 
 if len(argv) < 2:
-    print(f"usage: {__name__} <json_filename>")
-    sys.exit(0)
+    usage()
 
 filename = argv[1]
 with open(filename) as f:
