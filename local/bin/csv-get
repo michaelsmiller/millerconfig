@@ -11,16 +11,31 @@ import re
 
 CsvType = list[OrderedDict[str, str]]
 
+# TODO: use regexes to parse quoted entries and unquoted entries alike, do not just naively split a line unless there are no quotes
+def split_line(line : str) -> list[str]:
+    # TODO: make sure always strip()
+    if '"' not in line:
+        return [c.strip() for c in line.split(",")]
+    commas = [i for i,c in enumerate(line) if c == ","]
+    quotes = [i for i,c in enumerate(line) if c == '"']
+    assert len(quotes) % 2 == 0
+    for i in range(0, len(quotes), 2):
+        a, b = (quotes[i], quotes[i+1])
+        commas = [c for c in commas if c < a or c > b]
+    assert len(commas) > 0
+    values = [line[:commas[0]]]
+    values.extend(line[commas[i]+1:commas[i+1]] for i in range(len(commas)-1))
+    values.append(line[commas[-1]+1:])
+
+    values = [v.replace('"', '').strip() for v in values]
+    return values
+
+
 # NOTE: need to do parsing into lines beforehand because of Windows nonsense,
 # better to do it at the stage of the file
 def parse_csv(lines : list[str]) -> CsvType:
     if len(lines) == 0:
         return {}
-
-    # TODO: use regexes to parse quoted entries and unquoted entries alike, do not just naively split a line unless there are no quotes
-    def split_line(line : str) -> list[str]:
-        # TODO: make sure always strip()
-        return [c.strip() for c in line.split(",")]
 
     header = lines.pop(0)
     titles = split_line(header)
