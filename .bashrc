@@ -1,9 +1,3 @@
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
-
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -32,7 +26,6 @@ CUSER="\[$(tput setaf 33)\]"
 CDIR="\[$(tput setaf 123)\]"
 CDOLLAR="\[$(tput setaf 31)\]"
 CEND="\[$(tput sgr0)\]"
-# Putting an escape code in an "echo" call fucks up the formatting for some reason
 CENV2="$(tput setaf 51)"
 CEND2="$(tput sgr0)"
 display_env() {
@@ -98,7 +91,7 @@ fi
 # export DISPLAY=localhost:0.0
 
 # alias jb=jupyter-notebook-browser
-alias v=vi
+alias v=vim
 alias g=git
 alias gs="git status"
 
@@ -127,7 +120,8 @@ extract () {
 
 
 # Graphics!!!!
-export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+# These may or may not be needed for WSL to properly pipe into the correct Xwindow
+# export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
 # export LIBGL_ALWAYS_INDIRECT=1
 
 
@@ -137,21 +131,23 @@ alias sbp='source ~/.bashrc'
 
 alias e='exit'
 
-# For GCC 10 instead of the default 9
-alias gcc='gcc-10'
-alias g++='g++-10'
+export PATH="$HOME/local/bin:$PATH"
 
+
+# Opening images and related files
+# I have a bash script that processes this so that behavior
+# can change subtly for different filetypes if necessary
+alias open="open-file"
 
 pdf() {
   if [[ $# -ne 1 ]]; then
     echo "usage: pdf <doc.tex>"
   else
     local name="${1%%.*}"
-    pdflatex -halt-on-error $1 && okular "$name.pdf"
+    pdflatex -halt-on-error $1 && open-file "$name.pdf"
   fi
 }
 
-export PATH="$HOME/local/bin:$PATH"
 
 # For LLVM 11
 export PATH="/usr/lib/llvm-11/bin:$PATH"
@@ -160,29 +156,19 @@ export PATH="/usr/lib/llvm-11/bin:$PATH"
 export PATH="$HOME/software/jai/bin:$PATH"
 alias jai="jai-linux -x64"
 
-# Opening images and related files
-# I have a bash script that processes this so that behavior
-# can change subtly for different filetypes if necessary
-alias open="open-file"
-# alias open="xdg-open"
-
 # for ctags
 alias tags="ctags -R -f .tags"
 
 
 # DOCKER
-DOCKER_RUNNING=$(ps aux | grep dockerd | grep -v grep)
-if [ -z "$DOCKER_RUNNING" ]; then
-  sudo dockerd > /dev/null 2>&1 & disown
-fi
+# DOCKER_RUNNING=$(ps aux | grep dockerd | grep -v grep)
+# if [ -z "$DOCKER_RUNNING" ]; then
+#   sudo dockerd > /dev/null 2>&1 & disown
+# fi
 
 # Docker cheatsheet
 #  docker system prune -a
 #  docker images -a
-
-
-# GO
-export GOROOT=/usr/lib/go
 
 # POSTGRES
 ######### Start the daemon ##########
