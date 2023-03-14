@@ -361,8 +361,9 @@ nnoremap <S-L> $
 " make space shorthand for :noh
 noremap <silent> <Space> :silent noh<Bar>echo<CR>
 
+set mouse=a
+
 " For quick run of some makefiles or whatever I need at the moment
-" nnoremap <leader>m :w<CR>:!clear&&cd ~/game&&make -j4<CR>
 nnoremap <leader>m :silent w<CR>:!clear&&python %:p<CR>
 " nnoremap <leader>m :w<CR>:!clear&&jai -x64 %:p<CR>
 
