@@ -367,6 +367,7 @@ set mouse=a
 nnoremap <leader>m :silent w<CR>:!clear&&python %:p<CR>
 " nnoremap <leader>m :w<CR>:!clear&&jai -x64 %:p<CR>
 
+
 " If we are editing file ~/dir/.../filename
 "   this takes us to ~/dir/notes.txt
 function! GoToNotes()
@@ -396,6 +397,9 @@ nnoremap <Tab> >>
 nnoremap <S-Tab> <<
 vnoremap <S-Tab> <
 vnoremap <Tab> >
+
+" Copy a selection into system clipboard
+vnoremap <C-C> "+y
 
 " Relative numbers
 nnoremap <C-N> :set number! <CR> :set relativenumber! <CR>

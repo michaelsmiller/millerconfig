@@ -22,7 +22,8 @@ color_prompt=yes
 # which I haven't been able to get to display everything, even though they should
 # Can view all colors by running `show-colors`
 CUSER="\[$(tput setaf 33)\]"
-# CRUCHI="\[$(tput setaf 220)\]"
+# Very important color, ask Ruchi
+CRUCHI="\[$(tput setaf 220)\]"
 CDIR="\[$(tput setaf 123)\]"
 CDOLLAR="\[$(tput setaf 31)\]"
 CEND="\[$(tput sgr0)\]"
