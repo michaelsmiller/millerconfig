@@ -1,0 +1,18 @@
+#!/bin/bash
+
+to_dir="/home/millerms/apalis/python-data-ingestion/data/real_data"
+from_dir="/home/millerms/Downloads"
+
+reg="^(.*/)?(\w+)_([0-9]{8})\.csv$"
+files=$(find ${from_dir} -type f -regextype "posix-extended" -regex ${reg})
+for f in ${files}
+do
+  # Use the same regex to get the date capture group
+  [[ "$f" =~ $reg ]];
+  date=${BASH_REMATCH[3]};
+  dest="${to_dir}/${date}";
+  # Create if doesn't exist
+  mkdir -p $dest;
+  echo "Moving $f => $dest";
+  mv $f $dest;
+done
