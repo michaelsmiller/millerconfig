@@ -51,7 +51,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # my own highly useful alias
-alias grepp="grep -RFIn --exclude='*.ipynb' --exclude='.tags' --exclude-dir='.git' --exclude='__pycache__'"
+alias grepp="grep -RFIn --exclude='*.ipynb' --exclude-dir='.pyre' --exclude='.tags' --exclude-dir='*.egg-info' --exclude-dir='.git' --exclude-dir='.pytest_cache' --exclude='__pycache__'"
 alias tree="tree -I '__pycache__|*.egg-info'"
 
 # some more ls aliases
@@ -184,6 +184,15 @@ alias tags="ctags -R -f .tags"
 
 # Apalis
 export APALIS_DEBUG="true"
+
+export AUTH0_AUDIENCE="https://www.apalis.com/authentication/auth0"
+export AUTH0_DOMAIN="dev-el06bq6e.us.auth0.com"
+
+# The place for Apalis
+export APALIS_AWS_CODE="261669878997"
+
+alias manage="python manage.py"
+
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
