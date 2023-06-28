@@ -141,6 +141,7 @@ augroup type_setting
   autocmd BufNewFile,BufRead *.toml  set syntax=toml " TOML
   autocmd BufNewFile,BufRead *.sql  set syntax=sql   " SQL
   autocmd BufNewFile,BufRead *.condarc  set syntax=yaml   " Anaconda settings are in YAML for some reason
+  autocmd BufNewFile,BufRead *.pyre_configuration  set syntax=json   " pyre is JSON
   autocmd BufNewFile,BufRead *.dockerignore  set syntax=conf   " Dockerignore file
   autocmd BufNewFile,BufRead go.mod  set syntax=gomod   " go.mod files
 augroup END

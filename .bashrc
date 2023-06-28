@@ -60,7 +60,6 @@ alias la='ls -A'
 alias l='ls -CF'
 
 
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -190,6 +189,12 @@ export AUTH0_DOMAIN="dev-el06bq6e.us.auth0.com"
 
 # The place for Apalis
 export APALIS_AWS_CODE="261669878997"
+export APALIS_MAILSERVER_HOSTNAME="ec2-54-68-29-58.us-west-2.compute.amazonaws.com"
+export MAIL_KEY="${HOME}/.ssh/apalis-mailserver-key.pem"
+alias ssh-mailserver="ssh -i ${MAIL_KEY} ubuntu@${APALIS_MAILSERVER_HOSTNAME}"
+scp-mailserver () {
+  scp -i ${MAIL_KEY} $@ ubuntu@${APALIS_MAILSERVER_HOSTNAME}:/home/ubuntu
+}
 
 alias manage="python manage.py"
 

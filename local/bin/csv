@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # TODO: use a specific environment in the shebang or maybe have a wrapper script
+# Not a pressing issue because all the modules used here are base python
 
 from collections import OrderedDict
 from collections.abc import Iterable
