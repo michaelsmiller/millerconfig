@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Dumps from clipboard to a file
+
+if [[ $# != 1 ]]; then
+  echo "usage: dump <file_path>"
+  exit 1
+fi
+
+filepath="$1"
+if [[ -f "$filepath" ]]; then
+  echo "Deleting existing file '${filepath}'"
+  rm $filepath
+fi
+
+echo "Dumping clipboard to '${filepath}'..."
+xsel -b >> $filepath
+echo "Done"
