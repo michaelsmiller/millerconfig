@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+# From https://github.com/jimeh/dotfiles/commit/3838db8
+# All just to get tmux copy buffer stuff working on OSX
+
+# If reattach-to-user-namespace is not available, just run the command.
+if [ -n "$(command -v reattach-to-user-namespace)" ]; then
+  reattach-to-user-namespace $@
+else
+  exec "$@"
+fi
+
