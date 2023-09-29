@@ -13,6 +13,9 @@ Plugin 'kien/ctrlp.vim'                 " Searching, seems fun, should learn how
 Plugin 'itchyny/lightline.vim'          " statusline
 
 " Syntax Highlighting
+Plugin 'othree/html5.vim'               " HTML
+Plugin 'pangloss/vim-javascript'        " Javascript
+Plugin 'evanleck/vim-svelte'            " Svelte
 Plugin 'vim-python/python-syntax'       " Python
 Plugin 'vim-scripts/indentpython.vim'   " fix auto-indent after multiline function signature
 Plugin 'cespare/vim-toml'               " toml
@@ -23,7 +26,6 @@ Plugin 'jansedivy/jai.vim'              " Jai
 Plugin 'beyondmarc/glsl.vim'            " GLSL
 Plugin 'shmup/vim-sql-syntax'           " SQL
 Plugin 'ekalinin/Dockerfile.vim'        " Dockerfile
-" Plugin 'fatih/vim-go'                   " Golang
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -126,6 +128,7 @@ augroup type_setting
   autocmd!
   " Variants of shell scripts
   autocmd BufNewFile,BufRead *.colors set syntax=sh " For colors variables for bash_profile
+  autocmd BufNewFile,BufRead *.bash_* set syntax=sh " e.g. .bash_private
   autocmd BufNewFile,BufRead *.env    set syntax=sh
   autocmd BufNewFile,BufRead *.env.*  set syntax=sh
 
@@ -265,6 +268,7 @@ iabbrev incldue include
 iabbrev subsitution substitution
 iabbrev sefl self
 iabbrev NOne None
+iabbrev fro for
 
 " Automatically ends paste mode when leaving insert mode
 au InsertLeave * set nopaste
