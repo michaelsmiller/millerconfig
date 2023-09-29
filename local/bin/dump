@@ -1,13 +1,21 @@
 #!/bin/bash
 
 # Dumps from clipboard to a file
-
-if [[ $# != 1 ]]; then
+usage() {
   echo "usage: dump <file_path>"
   exit 1
+}
+
+if [[ $# != 1 ]]; then
+  usage
 fi
 
 filepath="$1"
+if [[ -d "${filepath}" ]]; then
+  echo "Filepath is a directory, cannot write a file there: ${filepath}"
+  usage
+fi
+
 if [[ -f "$filepath" ]]; then
   echo "Deleting existing file '${filepath}'"
   rm $filepath
