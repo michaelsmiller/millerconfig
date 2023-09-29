@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+import csv
+import io
+from decimal import Decimal
+from argparse import ArgumentParser
+
+def map_csv(filename : str, column_name : str, operation, use_index : bool = False) -> str:
+    column_name = column_name.lower()
+    with open(filename, 'r', encoding='latin1') as f:
+        reader = csv.reader(f)
+        rows = [r for r in reader]
+
+    headers = [r.lower() for r in rows.pop(0)]
+    ncols = len(headers)
+    assert all(len(r) == ncols for r in rows)
+    i = headers.index(column_name)
+
+    for j,r in enumerate(rows):
+        if use_index:
+            v2 = operation(j)
+        else:
+            v2 = operation(r[i])
+        rows[j][i] = v2
+
+    f = io.StringIO(newline="")
+    writer = csv.writer(f)
+    writer.writerow(headers)
+    for r in rows:
+        writer.writerow(r)
+    s = f.getvalue().strip()
+    print(s)
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("filename", help="Filename of input csv")
+    parser.add_argument("column_name", help="Case insensitive column name that you want mapped")
+    parser.add_argument("--function", "-f", help="A python expression that evaluates to a lambda with the same domain as x -> x", default = "lambda x : x")
+    parser.add_argument("--index", action="store_true", help="Lambda should take in index within file of the row rather than value of the cell within the row")
+    args = parser.parse_args()
+    operation = eval(args.function)
+    map_csv(args.filename, args.column_name, operation, use_index = args.index)
+
+if __name__ == "__main__":
+    main()
