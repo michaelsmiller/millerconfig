@@ -246,8 +246,6 @@ nnoremap <leader>v `[v`]
 " For modifying d, x, v, etc.
 onoremap p i(
 onoremap q i"
-onoremap B ^
-onoremap E $
 
 " allows cursor change in tmux
 if exists('$TMUX')
@@ -446,4 +444,8 @@ endfunction
 command! Q bd
 
 " vimdiff
-nnoremap DO :execute :%diffget other<CR>:only<CR>:wq<CR>
+" LO = LOCAL
+nnoremap DH :diffget LO<CR>
+" RE = REMOTE
+nnoremap DL :diffget RE<CR>
+nnoremap DQ :only<CR>

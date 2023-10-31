@@ -22,9 +22,9 @@ if [[ "$extension" == "md" ]]; then
   # grip "$filepath"
   xdg-open "$filepath"
 # If file is not Markdown, assume it is an image and display with xdg-open
-elif [[ "$extension" == "csv" ]]; then
-  # Gets rid of annoying document recovery screen when opening CSVs
-  libreoffice --calc --norestore -o "$filepath"
+# elif [[ "$extension" == "csv" ]]; then
+#   # Gets rid of annoying document recovery screen when opening CSVs
+#   libreoffice --calc --norestore -o "$filepath"
 else
   xdg-open "$filepath"
 fi

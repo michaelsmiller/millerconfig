@@ -51,7 +51,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # my own highly useful alias
-alias grepp="grep -RFIn --exclude='*.ipynb' --exclude-dir='.pyre' --exclude='.tags' --exclude-dir='*.egg-info' --exclude-dir='.git' --exclude-dir='.pytest_cache' --exclude='__pycache__'"
+alias grepp="grep --color=auto -RFIn --exclude='*.ipynb' --exclude-dir='.pyre' --exclude='.tags' --exclude-dir='*.egg-info' --exclude-dir='.git' --exclude-dir='.pytest_cache' --exclude='__pycache__'"
 alias tree="tree -I '__pycache__|*.egg-info'"
 
 # some more ls aliases
@@ -148,6 +148,10 @@ pdf() {
   fi
 }
 
+# Arch desktop only
+alias refresh-desktop="update-desktop-database ${HOME}/.local/share/applications"
+# Useful everywhere when lm_sensors doesn't have the GPU drivers for some reason
+alias gpu-temp="nvidia-smi -q -d temperature | grep -i 'GPU Current' | cut -d':' -f2"
 
 # For LLVM 11
 export PATH="/usr/lib/llvm-11/bin:$PATH"
@@ -184,13 +188,19 @@ alias tags="ctags -R -f .tags"
 # Apalis
 export APALIS_DEBUG="true"
 
+export LEDGESTONE_DB_HOST="ledgestone-development.ch2i9qggomsz.us-west-2.rds.amazonaws.com"
+export APALIS_PROD_DB_HOST="apalis-production.ch2i9qggomsz.us-west-2.rds.amazonaws.com"
+export APALIS_PROD_READ_ONLY_DB_HOST="apalis-production-replica.ch2i9qggomsz.us-west-2.rds.amazonaws.com"
 export AUTH0_AUDIENCE="https://www.apalis.com/authentication/auth0"
 export AUTH0_DOMAIN="dev-el06bq6e.us.auth0.com"
+export REQUIRES_AUTHORIZATION="false"
+
+export APALIS_PROD_READ_ONLY_DB_STRING="apalis:${APALIS_PRODUCTION_PASSWORD}@${APALIS_PROD_READ_ONLY_DB_HOST}/apalis_prod"
 
 # The place for Apalis
 export APALIS_AWS_CODE="261669878997"
 export APALIS_MAILSERVER_HOSTNAME="ec2-54-68-29-58.us-west-2.compute.amazonaws.com"
-export MAIL_KEY="${HOME}/.ssh/apalis-mailserver-key.pem"
+export MAIL_KEY="${HOME}/apalis/aws/apalis-mailserver-key.pem"
 alias ssh-mailserver="ssh -i ${MAIL_KEY} ubuntu@${APALIS_MAILSERVER_HOSTNAME}"
 scp-mailserver () {
   scp -i ${MAIL_KEY} $@ ubuntu@${APALIS_MAILSERVER_HOSTNAME}:/home/ubuntu
@@ -198,19 +208,34 @@ scp-mailserver () {
 
 alias manage="python manage.py"
 
+alias database="sudo ${ANACONDA_DIR}/envs/pgadmin/bin/python -m pgadmin4.pgAdmin4"
+alias dashboard="npm run dev-8501"
+
+# python in general
+# F401 = unused import
+#
+alias flake8-unused="flake8 --select=F4"
+
 
 # >>> conda initialize >>>
+# This is custom code that I wrote to replace the normal anaconda B.S.
+# so that it works with either anaconda or miniconda
+
+export ANACONDA_DIR="${HOME}/anaconda3"
+if [[ ! -d ${ANACONDA_DIR} ]]; then
+  export ANACONDA_DIR="${HOME}/miniconda3"
+fi
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/millerms/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('${ANACONDA_DIR}/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/millerms/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/millerms/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "${ANACONDA_DIR}/etc/profile.d/conda.sh" ]; then
+        . "${ANACONDA_DIR}/etc/profile.d/conda.sh"
     else
-        export PATH="/home/millerms/anaconda3/bin:$PATH"
+        export PATH="${ANACONDA_DIR}/bin:$PATH"
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
 
+# Delete any auto-generated conda code below this
