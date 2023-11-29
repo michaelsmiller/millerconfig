@@ -51,7 +51,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # my own highly useful alias
-alias grepp="grep --color=auto -RFIn --exclude='*.ipynb' --exclude-dir='.pyre' --exclude='.tags' --exclude-dir='*.egg-info' --exclude-dir='.git' --exclude-dir='.pytest_cache' --exclude='__pycache__'"
+alias grepp="grep --color=auto -RFIn --exclude='*.ipynb' --exclude-dir='.pyre' --exclude='.tags' --exclude-dir='*.egg-info' --exclude-dir='.git' --exclude-dir='.pytest_cache' --exclude-dir='.venv' --exclude='__pycache__'"
 alias tree="tree -I '__pycache__|*.egg-info'"
 
 # some more ls aliases
@@ -148,13 +148,12 @@ pdf() {
   fi
 }
 
+alias get-audio="youtube-dl -x --audio-format mp3 --audio-quality 0"
+
 # Arch desktop only
 alias refresh-desktop="update-desktop-database ${HOME}/.local/share/applications"
 # Useful everywhere when lm_sensors doesn't have the GPU drivers for some reason
 alias gpu-temp="nvidia-smi -q -d temperature | grep -i 'GPU Current' | cut -d':' -f2"
-
-# For LLVM 11
-export PATH="/usr/lib/llvm-11/bin:$PATH"
 
 # Jai
 export PATH="$HOME/software/jai/bin:$PATH"
@@ -196,6 +195,7 @@ export AUTH0_DOMAIN="dev-el06bq6e.us.auth0.com"
 export REQUIRES_AUTHORIZATION="false"
 
 export APALIS_PROD_READ_ONLY_DB_STRING="apalis:${APALIS_PRODUCTION_PASSWORD}@${APALIS_PROD_READ_ONLY_DB_HOST}/apalis_prod"
+export APALIS_PROD_DB_STRING="apalis:${APALIS_PRODUCTION_PASSWORD}@${APALIS_PROD_DB_HOST}/apalis_prod"
 
 # The place for Apalis
 export APALIS_AWS_CODE="261669878997"
