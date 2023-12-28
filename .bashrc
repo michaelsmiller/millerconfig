@@ -162,6 +162,11 @@ alias jai="jai-linux -x64"
 # for ctags
 alias tags="ctags -R -f .tags"
 
+# NAS
+NAS_USER="michael"
+alias ssh-server="ssh ${NAS_USER}@${LOCAL_NAS_IP}"
+alias push-server="rsync -azP ${HOME}/apalis ${NAS_USER}@${LOCAL_NAS_IP}:/mnt/Storage/${NAS_USER}"
+alias pull-server="rsync -azP ${NAS_USER}@${LOCAL_NAS_IP}:/mnt/Storage/${NAS_USER}/apalis ${HOME}"
 
 # DOCKER
 # DOCKER_RUNNING=$(ps aux | grep dockerd | grep -v grep)
@@ -206,7 +211,7 @@ scp-mailserver () {
   scp -i ${MAIL_KEY} $@ ubuntu@${APALIS_MAILSERVER_HOSTNAME}:/home/ubuntu
 }
 
-alias manage="python manage.py"
+alias manage="pdm manage"
 
 alias database="sudo ${ANACONDA_DIR}/envs/pgadmin/bin/python -m pgadmin4.pgAdmin4"
 alias dashboard="npm run dev-8501"
@@ -214,7 +219,7 @@ alias dashboard="npm run dev-8501"
 # python in general
 # F401 = unused import
 #
-alias flake8-unused="flake8 --select=F4"
+alias flake8-unused="pdm run flake8 --select=F4"
 
 
 # >>> conda initialize >>>
