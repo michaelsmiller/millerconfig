@@ -48,7 +48,7 @@ alias ls='ls --color=auto -I "*.egg-info" -I "__pycache__"'
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias egrep='grep -E --color=auto'
 
 # my own highly useful alias
 alias grepp="grep --color=auto -RFIn --exclude='*.ipynb' --exclude-dir='.pyre' --exclude='.tags' --exclude-dir='*.egg-info' --exclude-dir='.git' --exclude-dir='.pytest_cache' --exclude-dir='.venv' --exclude='__pycache__'"
@@ -162,6 +162,13 @@ alias jai="jai-linux -x64"
 # for ctags
 alias tags="ctags -R -f .tags"
 
+# NAS
+NAS_USER="michael"
+export NAS_LOCAL_ADDRESS="${NAS_USER}@${LOCAL_NAS_IP}"
+alias ssh-server="ssh ${NAS_LOCAL_ADDRESS}"
+RSYNC_EXCLUDED_LIST="{'.pyre','.tags','*.egg-info',.git,.pytest_cache,.venv,__pycache__}"
+alias push-server="rsync -azP --exclude=${RSYNC_EXCLUDED_LIST} ${HOME}/apalis ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}"
+alias pull-server="rsync -azP --exclude=${RSYNC_EXCLUDED_LIST} ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}/apalis ${HOME}"
 
 # DOCKER
 # DOCKER_RUNNING=$(ps aux | grep dockerd | grep -v grep)
@@ -214,7 +221,7 @@ alias dashboard="npm run dev-8501"
 # python in general
 # F401 = unused import
 #
-alias flake8-unused="flake8 --select=F4"
+alias flake8-unused="pdm run flake8 --select=F4"
 
 if [[ -f "/System/Library/Kernels/kernel" ]] && [[ -f "${HOME}/.bashrc.mac" ]]; then
   source "${HOME}/.bashrc.mac"
