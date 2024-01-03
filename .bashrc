@@ -48,7 +48,7 @@ alias ls='ls --color=auto -I "*.egg-info" -I "__pycache__"'
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias egrep='grep -E --color=auto'
 
 # my own highly useful alias
 alias grepp="grep --color=auto -RFIn --exclude='*.ipynb' --exclude-dir='.pyre' --exclude='.tags' --exclude-dir='*.egg-info' --exclude-dir='.git' --exclude-dir='.pytest_cache' --exclude-dir='.venv' --exclude='__pycache__'"
@@ -164,9 +164,11 @@ alias tags="ctags -R -f .tags"
 
 # NAS
 NAS_USER="michael"
-alias ssh-server="ssh ${NAS_USER}@${LOCAL_NAS_IP}"
-alias push-server="rsync -azP ${HOME}/apalis ${NAS_USER}@${LOCAL_NAS_IP}:/mnt/Storage/${NAS_USER}"
-alias pull-server="rsync -azP ${NAS_USER}@${LOCAL_NAS_IP}:/mnt/Storage/${NAS_USER}/apalis ${HOME}"
+export NAS_LOCAL_ADDRESS="${NAS_USER}@${LOCAL_NAS_IP}"
+alias ssh-server="ssh ${NAS_LOCAL_ADDRESS}"
+RSYNC_EXCLUDED_LIST="{'.pyre','.tags','*.egg-info',.git,.pytest_cache,.venv,__pycache__}"
+alias push-server="rsync -azP --exclude=${RSYNC_EXCLUDED_LIST} ${HOME}/apalis ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}"
+alias pull-server="rsync -azP --exclude=${RSYNC_EXCLUDED_LIST} ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}/apalis ${HOME}"
 
 # DOCKER
 # DOCKER_RUNNING=$(ps aux | grep dockerd | grep -v grep)
