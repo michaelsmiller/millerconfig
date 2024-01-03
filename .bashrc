@@ -206,7 +206,7 @@ scp-mailserver () {
   scp -i ${MAIL_KEY} $@ ubuntu@${APALIS_MAILSERVER_HOSTNAME}:/home/ubuntu
 }
 
-alias manage="python manage.py"
+alias manage="pdm manage"
 
 alias database="sudo ${ANACONDA_DIR}/envs/pgadmin/bin/python -m pgadmin4.pgAdmin4"
 alias dashboard="npm run dev-8501"
@@ -215,6 +215,10 @@ alias dashboard="npm run dev-8501"
 # F401 = unused import
 #
 alias flake8-unused="flake8 --select=F4"
+
+if [[ -f "/System/Library/Kernels/kernel" ]] && [[ -f "${HOME}/.bashrc.mac" ]]; then
+  source "${HOME}/.bashrc.mac"
+fi
 
 
 # >>> conda initialize >>>
