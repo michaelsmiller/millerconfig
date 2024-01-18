@@ -167,8 +167,8 @@ NAS_USER="michael"
 export NAS_LOCAL_ADDRESS="${NAS_USER}@${LOCAL_NAS_IP}"
 alias ssh-server="ssh ${NAS_LOCAL_ADDRESS}"
 RSYNC_EXCLUDED_LIST="{'.pyre','.tags','*.egg-info',.git,.pytest_cache,.venv,__pycache__}"
-alias push-server="rsync -azP --exclude=${RSYNC_EXCLUDED_LIST} ${HOME}/apalis ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}"
-alias pull-server="rsync -azP --exclude=${RSYNC_EXCLUDED_LIST} ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}/apalis ${HOME}"
+alias push-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${HOME}/apalis ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}"
+alias pull-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}/apalis ${HOME}"
 
 # DOCKER
 # DOCKER_RUNNING=$(ps aux | grep dockerd | grep -v grep)
@@ -246,3 +246,7 @@ fi
 unset __conda_setup
 
 # Delete any auto-generated conda code below this
+
+# tabtab source for packages
+# uninstall by removing these lines
+[ -f ~/.config/tabtab/__tabtab.bash ] && . ~/.config/tabtab/__tabtab.bash || true
