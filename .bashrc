@@ -223,6 +223,10 @@ alias dashboard="npm run dev-8501"
 #
 alias flake8-unused="pdm run flake8 --select=F4"
 
+if [[ -f "/System/Library/Kernels/kernel" ]] && [[ -f "${HOME}/.bashrc.mac" ]]; then
+  source "${HOME}/.bashrc.mac"
+fi
+
 
 # >>> conda initialize >>>
 # This is custom code that I wrote to replace the normal anaconda B.S.
