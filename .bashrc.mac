@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Removes annoying ZSH default shell warnings
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # Homebrew
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"

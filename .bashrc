@@ -166,7 +166,7 @@ alias tags="ctags -R -f .tags"
 NAS_USER="michael"
 export NAS_LOCAL_ADDRESS="${NAS_USER}@${LOCAL_NAS_IP}"
 alias ssh-server="ssh ${NAS_LOCAL_ADDRESS}"
-RSYNC_EXCLUDED_LIST="{'.pyre','.tags','*.egg-info',.git,.pytest_cache,.venv,__pycache__}"
+RSYNC_EXCLUDED_LIST="{'.pyre','.tags','*.egg-info',.git,.pytest_cache,.venv,__pycache__,.pdm-python}"
 alias push-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${HOME}/apalis ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}"
 alias pull-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}/apalis ${HOME}"
 
