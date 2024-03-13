@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Dumps from file to clipboard
+usage() {
+  echo "usage: dump <file_path>"
+  exit 1
+}
+
+if [[ $# != 1 ]]; then
+  usage
+fi
+
+filepath="$1"
+if [[ -d "${filepath}" ]]; then
+  echo "Filepath is a directory, cannot write a file there: ${filepath}"
+  usage
+fi
+
+if [[ ! -f "$filepath" ]]; then
+  echo "File does not exist: ${filepath}"
+  usage
+fi
+
+echo "Dumping '${filepath}' to clipboard..."
+# xclip -sel clipboard < $filepath
+wl-copy < $filepath
+echo "Done"
