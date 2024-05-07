@@ -198,7 +198,6 @@ export LEDGESTONE_DB_HOST="ledgestone-development.ch2i9qggomsz.us-west-2.rds.ama
 export APALIS_PROD_DB_HOST="apalis-production.ch2i9qggomsz.us-west-2.rds.amazonaws.com"
 export APALIS_PROD_READ_ONLY_DB_HOST="apalis-production-replica.ch2i9qggomsz.us-west-2.rds.amazonaws.com"
 export AUTH0_AUDIENCE="https://www.apalis.com/authentication/auth0"
-export AUTH0_DOMAIN="dev-el06bq6e.us.auth0.com"
 export REQUIRES_AUTHORIZATION="false"
 
 export APALIS_PROD_READ_ONLY_DB_STRING="apalis:${APALIS_PRODUCTION_PASSWORD}@${APALIS_PROD_READ_ONLY_DB_HOST}/apalis_prod"
