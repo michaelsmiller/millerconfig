@@ -2,7 +2,7 @@
 
 # Dumps from file to clipboard
 usage() {
-  echo "usage: dump <file_path>"
+  echo "usage: clip <file_path>"
   exit 1
 }
 
@@ -22,6 +22,10 @@ if [[ ! -f "$filepath" ]]; then
 fi
 
 echo "Dumping '${filepath}' to clipboard..."
-# xclip -sel clipboard < $filepath
-wl-copy < $filepath
+if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+  wl-copy < $filepath
+else
+  xclip -sel clipboard < $filepath
+fi
+
 echo "Done"

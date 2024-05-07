@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Dumps from file to clipboard
+if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+  wl-copy "$@"
+else
+  xclip -sel clipboard -i "$@"
+fi
+
+echo "Done"
