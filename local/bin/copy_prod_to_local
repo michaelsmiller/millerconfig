@@ -1,0 +1,24 @@
+#!/bin/bash
+
+DUMPFILE_DIRECTORY="${HOME}/apalis/dumpfiles"
+
+if [[ "$#" != "1" ]]; then
+  echo "usage: copy_prod_to_local <dumpfilename>"
+  exit 1
+fi
+
+# 1. SSH and dump
+filename="$1"
+pg_dump_command="PGPASSWORD='${APALIS_PRODUCTION_PASSWORD}' pg_dump -Fc -Z9 -U apalis -f ${filename} -h ${APALIS_PROD_READ_ONLY_DB_HOST} apalis_prod"
+
+echo "Running dump command..."
+ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "${pg_dump_command}"
+
+echo "Copying dumpfile to local machine..."
+scp -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME}:/home/${USER}/${filename} ${DUMPFILE_DIRECTORY}
+
+echo "Removing remote dumpfile..."
+ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "rm -f ${filename}"
+
+echo "Restoring local db..."
+pg_restore -c -j4 -U apalis -h localhost -d apalis_dev_local ${DUMPFILE_DIRECTORY}/${filename}
