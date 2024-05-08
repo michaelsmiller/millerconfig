@@ -2,23 +2,69 @@
 
 DUMPFILE_DIRECTORY="${HOME}/apalis/dumpfiles"
 
-if [[ "$#" != "1" ]]; then
-  echo "usage: copy_prod_to_local <dumpfilename>"
+usage() {
+  echo "usage: copy_prod_to_local [--dev] [--local] <dumpfilename>"
   exit 1
+}
+
+args=("$@")
+function get() {
+  echo "${args[$1]}"
+}
+
+# These variables get set by the arguments
+filename=""
+do_local=1
+
+max_index=$(expr $# - 1)
+i=0
+while [[ $i -lt $# ]];
+do
+  arg=$(get $i)
+  # echo $i
+  # echo $arg
+  if [[ "$arg" == "--dev" ]]; then
+    do_local=0
+  elif [[ "$arg" == "--local" ]]; then
+    do_local=1
+  elif [[ "$i" != "$max_index" ]]; then
+    usage
+  else
+    filename="$arg"
+  fi
+  i=$(expr $i + 1)
+done
+
+if [[ "$filename" == "" ]]; then
+  echo "filename was not provided"
+  usage
+elif ! [[ "$filename" =~ ^.*\.dump$ ]]; then
+  echo "filename '${filename}' invalid, must have .dump extension"
+  usage
 fi
 
 # 1. SSH and dump
-filename="$1"
 pg_dump_command="PGPASSWORD='${APALIS_PRODUCTION_PASSWORD}' pg_dump -Fc -Z9 -U apalis -f ${filename} -h ${APALIS_PROD_READ_ONLY_DB_HOST} apalis_prod"
 
+ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "rm -f ${filename}"
 echo "Running dump command..."
 ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "${pg_dump_command}"
 
-echo "Copying dumpfile to local machine..."
-scp -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME}:/home/${USER}/${filename} ${DUMPFILE_DIRECTORY}
 
-echo "Removing remote dumpfile..."
-ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "rm -f ${filename}"
+if [[ "$do_local" == 1 ]]; then
+  echo "Copying dumpfile to local machine..."
+  scp -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME}:/home/${USER}/${filename} ${DUMPFILE_DIRECTORY}
 
-echo "Restoring local db..."
-pg_restore -c -j4 -U apalis -h localhost -d apalis_dev_local ${DUMPFILE_DIRECTORY}/${filename}
+  echo "Removing remote dumpfile..."
+  ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "rm -f ${filename}"
+
+  echo "Restoring local db..."
+  pg_restore -c -j4 -U apalis -h localhost -d apalis_dev_local ${DUMPFILE_DIRECTORY}/${filename}
+else
+  echo "Restoring dev"
+  pg_restore_command="PGPASSWORD='${APALIS_DEFAULT_PASSWORD}' pg_restore -c -j4 -U apalis -h ${LEDGESTONE_DB_HOST} -d apalis_dev ${filename}"
+  ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "${pg_restore_command}"
+
+  echo "Removing remote dumpfile..."
+  ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "rm -f ${filename}"
+fi
