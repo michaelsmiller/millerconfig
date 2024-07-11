@@ -3,7 +3,7 @@
 DUMPFILE_DIRECTORY="${HOME}/apalis/dumpfiles"
 
 usage() {
-  echo "usage: copy_prod_to_local [--dev] [--local] <dumpfilename>"
+  echo "usage: copy_prod_to_local [--dev] [--local] [--staging] <dumpfilename>"
   exit 1
 }
 
@@ -12,9 +12,13 @@ function get() {
   echo "${args[$1]}"
 }
 
+LOCAL='LOCAL'
+DEV='DEV'
+STAGING='STAGING'
+
 # These variables get set by the arguments
 filename=""
-do_local=1
+behavior=$LOCAL
 
 max_index=$(expr $# - 1)
 i=0
@@ -24,9 +28,13 @@ do
   # echo $i
   # echo $arg
   if [[ "$arg" == "--dev" ]]; then
-    do_local=0
+    behavior=$DEV
   elif [[ "$arg" == "--local" ]]; then
-    do_local=1
+    behavior=$LOCAL
+  elif [[ "$arg" == "--staging" ]]; then
+    behavior=$STAGING
+  elif [[ "$arg" == "--help" ]] || [[ "$arg" == "-h" ]]; then
+    usage
   elif [[ "$i" != "$max_index" ]]; then
     usage
   else
@@ -51,7 +59,7 @@ echo "Running dump command..."
 ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "${pg_dump_command}"
 
 
-if [[ "$do_local" == 1 ]]; then
+if [[ $behavior == $LOCAL ]]; then
   echo "Copying dumpfile to local machine..."
   scp -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME}:/home/${USER}/${filename} ${DUMPFILE_DIRECTORY}
 
@@ -60,9 +68,16 @@ if [[ "$do_local" == 1 ]]; then
 
   echo "Restoring local db..."
   pg_restore -c -j4 -U apalis -h localhost -d apalis_dev_local ${DUMPFILE_DIRECTORY}/${filename}
-else
+elif [[ $behavior == $DEV ]]; then
   echo "Restoring dev"
   pg_restore_command="PGPASSWORD='${APALIS_DEFAULT_PASSWORD}' pg_restore -c -j4 -U apalis -h ${LEDGESTONE_DB_HOST} -d apalis_dev ${filename}"
+  ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "${pg_restore_command}"
+
+  echo "Removing remote dumpfile..."
+  ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "rm -f ${filename}"
+elif [[ $behavior == $STAGING ]]; then
+  echo "Restoring staging"
+  pg_restore_command="PGPASSWORD='${APALIS_PRODUCTION_PASSWORD}' pg_restore -c -j4 -U apalis -h ${APALIS_PROD_DB_HOST} -d apalis_staging ${filename}"
   ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "${pg_restore_command}"
 
   echo "Removing remote dumpfile..."

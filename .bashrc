@@ -253,3 +253,10 @@ unset __conda_setup
 # tabtab source for packages
 # uninstall by removing these lines
 [ -f ~/.config/tabtab/__tabtab.bash ] && . ~/.config/tabtab/__tabtab.bash || true
+
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --bash)"
+export FZF_CTRL_T_OPTS="
+--bind 'enter:become(vim {} > /dev/tty)'
+--walker-skip .git,__pycache__
+"
