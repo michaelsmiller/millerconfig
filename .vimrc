@@ -148,6 +148,7 @@ augroup type_setting
   autocmd BufNewFile,BufRead *.pyre_configuration  set syntax=json   " pyre is JSON
   autocmd BufNewFile,BufRead *.dockerignore  set syntax=conf   " Dockerignore file
   autocmd BufNewFile,BufRead go.mod  set syntax=gomod   " go.mod files
+  autocmd BufNewFile,BufRead talosconfig  set syntax=yaml   " Talos client config
 augroup END
 
 " For overriding defaults in vim-commentary plugin

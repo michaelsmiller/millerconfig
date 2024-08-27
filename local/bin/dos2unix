@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Removes \r (a.k.a. ^M) from the newline of a file
+usage() {
+  echo "usage: dos2unix <file_path>"
+  exit 1
+}
+
+if [[ $# != 1 ]]; then
+  usage
+fi
+
+filepath="$1"
+if [[ -d "${filepath}" ]]; then
+  echo "Filepath is a directory, cannot write a file there: ${filepath}"
+  usage
+fi
+
+sed -ie "s/\r//g" $1

@@ -1,0 +1,13 @@
+#!/bin/env python
+
+import sys
+
+def process_string(s: str) -> str:
+    b = s.encode("utf-8")
+    result = b.decode("unicode-escape")
+    return result
+
+if __name__ == "__main__":
+    s = sys.stdin.read()
+    result = process_string(s)
+    print(result)

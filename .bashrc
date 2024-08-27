@@ -166,9 +166,10 @@ alias tags="ctags -R -f .tags"
 NAS_USER="michael"
 export NAS_LOCAL_ADDRESS="${NAS_USER}@${LOCAL_NAS_IP}"
 alias ssh-server="ssh ${NAS_LOCAL_ADDRESS}"
-RSYNC_EXCLUDED_LIST="{'.pyre','.tags','*.egg-info',.git,.pytest_cache,.venv,__pycache__,.pdm-python}"
-alias push-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${HOME}/apalis ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}"
-alias pull-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${NAS_LOCAL_ADDRESS}:/mnt/Storage/${NAS_USER}/apalis ${HOME}"
+RSYNC_EXCLUDED_LIST="{'.pyre','.tags','*.egg-info',.git,.pytest_cache,.venv,__pycache__,.pdm-python,postgres_data}"
+NAS_BACKUP_PATH="/home/${NAS_USER}/dev_backups"
+alias push-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${HOME}/apalis ${NAS_LOCAL_ADDRESS}:${NAS_BACKUP_PATH}"
+alias pull-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${NAS_LOCAL_ADDRESS}:${NAS_BACKUP_PATH}/apalis ${HOME}"
 
 # DOCKER
 # DOCKER_RUNNING=$(ps aux | grep dockerd | grep -v grep)
@@ -179,6 +180,9 @@ alias pull-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${NAS_LO
 # Docker cheatsheet
 #  docker system prune -a
 #  docker images -a
+
+# Airflow
+export AIRFLOW_HOME=${HOME}/airflow
 
 # POSTGRES
 ######### Start the daemon ##########
@@ -192,13 +196,10 @@ alias pull-server="rsync -azP --delete --exclude=${RSYNC_EXCLUDED_LIST} ${NAS_LO
 #########  ##########
 
 # Apalis
-export APALIS_DEBUG="true"
-
 export LEDGESTONE_DB_HOST="ledgestone-development.ch2i9qggomsz.us-west-2.rds.amazonaws.com"
 export APALIS_PROD_DB_HOST="apalis-production.ch2i9qggomsz.us-west-2.rds.amazonaws.com"
 export APALIS_PROD_READ_ONLY_DB_HOST="apalis-production-replica.ch2i9qggomsz.us-west-2.rds.amazonaws.com"
 export AUTH0_AUDIENCE="https://www.apalis.com/authentication/auth0"
-export REQUIRES_AUTHORIZATION="false"
 
 export APALIS_PROD_READ_ONLY_DB_STRING="apalis:${APALIS_PRODUCTION_PASSWORD}@${APALIS_PROD_READ_ONLY_DB_HOST}/apalis_prod"
 export APALIS_PROD_DB_STRING="apalis:${APALIS_PRODUCTION_PASSWORD}@${APALIS_PROD_DB_HOST}/apalis_prod"
@@ -214,7 +215,15 @@ scp-mailserver () {
 
 alias manage="pdm manage"
 
-alias database="sudo ${ANACONDA_DIR}/envs/pgadmin/bin/python -m pgadmin4.pgAdmin4"
+alias pgadmin="sudo ${ANACONDA_DIR}/envs/pgadmin/bin/python -m pgadmin4.pgAdmin4"
+database () {
+  pushd ${HOME}/apalis/postgres
+  docker compose down --remove-orphans postgres && docker compose up -d postgres
+  popd
+}
+alias pg_restore="docker exec -it postgres-postgres-1 pg_restore"
+alias pg_dump="docker exec -it postgres-postgres-1 pg_dump"
+
 alias dashboard="npm run dev-8501"
 
 # python in general
@@ -254,5 +263,9 @@ unset __conda_setup
 # uninstall by removing these lines
 [ -f ~/.config/tabtab/__tabtab.bash ] && . ~/.config/tabtab/__tabtab.bash || true
 
-# fzf
+# Set up fzf key bindings and fuzzy completion
 eval "$(fzf --bash)"
+export FZF_CTRL_T_OPTS="
+--bind 'enter:become(vim {} > /dev/tty)'
+--walker-skip .git,__pycache__
+"
