@@ -11,6 +11,7 @@ Plugin 'vim-scripts/DoxygenToolkit.vim' " for javadoc stuff
 Plugin 'Galicarnax/vim-regex-syntax'    " highlights regexes
 Plugin 'kien/ctrlp.vim'                 " Searching, seems fun, should learn how to use it.
 Plugin 'itchyny/lightline.vim'          " statusline
+Plugin 'junegunn/fzf'                   " fzf
 
 " Syntax Highlighting
 Plugin 'othree/html5.vim'               " HTML

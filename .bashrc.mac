@@ -5,6 +5,7 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 
 # Homebrew
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/Applications/Postgres.app/Contents/Versions/16/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
 alias ls='ls --color'

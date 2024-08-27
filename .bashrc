@@ -253,3 +253,6 @@ unset __conda_setup
 # tabtab source for packages
 # uninstall by removing these lines
 [ -f ~/.config/tabtab/__tabtab.bash ] && . ~/.config/tabtab/__tabtab.bash || true
+
+# fzf
+eval "$(fzf --bash)"
