@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DUMPFILE_DIRECTORY="${HOME}/apalis/dumpfiles"
+MOUNTED_DUMPFILE_DIRECTORY="/etc/pg_dumpfiles"
 
 usage() {
   echo "usage: copy_prod_to_local [--dev] [--local] [--staging] <dumpfilename>"
@@ -54,7 +55,7 @@ fi
 # 1. SSH and dump
 pg_dump_command="PGPASSWORD='${APALIS_PRODUCTION_PASSWORD}' pg_dump -Fc -Z9 -U apalis -f ${filename} -h ${APALIS_PROD_READ_ONLY_DB_HOST} apalis_prod"
 
-ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "rm -f ${filename}"
+ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "rm -f ${filename}" || exit 1
 echo "Running dump command..."
 ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "${pg_dump_command}"
 
@@ -67,7 +68,8 @@ if [[ $behavior == $LOCAL ]]; then
   ssh -i ${MAIL_KEY} ${USER}@${APALIS_MAILSERVER_HOSTNAME} "rm -f ${filename}"
 
   echo "Restoring local db..."
-  pg_restore -c -j4 -U apalis -h localhost -d apalis_dev_local ${DUMPFILE_DIRECTORY}/${filename}
+  # pg_restore -c -j4 -U apalis -h localhost -d apalis_dev_local ${DUMPFILE_DIRECTORY}/${filename}
+  pg_restore -c -U apalis -h localhost -d apalis_dev_local ${MOUNTED_DUMPFILE_DIRECTORY}/${filename}
 elif [[ $behavior == $DEV ]]; then
   echo "Restoring dev"
   pg_restore_command="PGPASSWORD='${APALIS_DEFAULT_PASSWORD}' pg_restore -c -j4 -U apalis -h ${LEDGESTONE_DB_HOST} -d apalis_dev ${filename}"
