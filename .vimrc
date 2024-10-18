@@ -7,6 +7,7 @@ Plugin 'VundleVim/Vundle.vim' " required
 
 Plugin 'tpope/vim-commentary'           " for comments
 Plugin 'tpope/vim-fugitive'             " for vimdiff merge conflicts
+Plugin 'tpope/vim-obsession'            " for saving sessions (useful in tmux)
 Plugin 'vim-scripts/DoxygenToolkit.vim' " for javadoc stuff
 Plugin 'Galicarnax/vim-regex-syntax'    " highlights regexes
 Plugin 'kien/ctrlp.vim'                 " Searching, seems fun, should learn how to use it.
@@ -404,7 +405,7 @@ vnoremap <S-Tab> <
 vnoremap <Tab> >
 
 " Copy a selection into system clipboard
-vnoremap <C-C> ""y:call system("wl-copy", @")<CR>
+vnoremap <C-C> ""y:call system("clip-inline", @")<CR>
 
 " Relative numbers
 nnoremap <C-N> :set number! <CR> :set relativenumber! <CR>
