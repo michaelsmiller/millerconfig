@@ -7,6 +7,7 @@ Plugin 'VundleVim/Vundle.vim' " required
 
 Plugin 'tpope/vim-commentary'           " for comments
 Plugin 'tpope/vim-fugitive'             " for vimdiff merge conflicts
+Plugin 'tpope/vim-obsession'            " for saving sessions (useful in tmux)
 Plugin 'vim-scripts/DoxygenToolkit.vim' " for javadoc stuff
 Plugin 'Galicarnax/vim-regex-syntax'    " highlights regexes
 Plugin 'kien/ctrlp.vim'                 " Searching, seems fun, should learn how to use it.

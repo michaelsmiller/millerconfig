@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# TODO: use a specific environment in the shebang or maybe have a wrapper script
-# Not a pressing issue because all the modules used here are base python
 
 from collections import OrderedDict
 from collections.abc import Iterable
@@ -87,7 +85,7 @@ def normalize_condition(titles: list[str], condition : Condition) -> Condition:
     return condition
 
 
-def print_csv(rows : CsvType, titles_to_print : list[str]) -> str:
+def print_csv(rows : CsvType, titles_to_print : list[str], unique: bool = False) -> str:
     titles = get_titles(rows)
     # Check each title and fix capitalization mistakes
     titles_to_print = [normalize_key(titles, t) for t in titles_to_print]
@@ -95,18 +93,24 @@ def print_csv(rows : CsvType, titles_to_print : list[str]) -> str:
     column_max_lengths = [max(len(row[k]) for row in rows) for k in titles_to_print]
     max_lengths = [2+max(n, m) for n,m in zip(title_max_lengths, column_max_lengths)]
 
+    unique_lines = set()
     def print_line(columns : list[str]) -> int:
         assert len(columns) == len(max_lengths)
         columns = [s.center(n) for s,n in zip(columns, max_lengths)]
         line = "|".join(columns)
         line = f"|{line}|"
-        print(line)
+        if not unique or line not in unique_lines:
+            print(line)
+
+        if unique:
+            unique_lines.add(line)
         return len(line)
 
     line_length = len(titles_to_print) + 1 + sum(max_lengths)
     print("-"*line_length)
     line_length = print_line(titles_to_print)
     print("-"*line_length)
+    # breakpoint()
     for row in rows:
         print_line([row[k] for k in titles_to_print])
 
@@ -122,7 +126,7 @@ def filter_csv(rows : CsvType, conditions : list[Condition]) -> CsvType:
     return rows
 
 
-def main(filename : str, columns : Optional[list[str]] = None, conditions : Optional[list[Condition]] = None, list_titles : bool = False):
+def main(filename : str, columns : Optional[list[str]] = None, conditions : Optional[list[Condition]] = None, list_titles : bool = False, unique: bool = False):
     if conditions is None:
         conditions = []
 
@@ -136,13 +140,14 @@ def main(filename : str, columns : Optional[list[str]] = None, conditions : Opti
     if not csv:
         return
     columns = columns or get_titles(csv) # default is all columns
-    print_csv(csv, columns)
+    print_csv(csv, columns, unique=unique)
 
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('filename')
     parser.add_argument('--columns')
     parser.add_argument('--conditions')
+    parser.add_argument('--unique', action="store_true", default=False)
     parser.add_argument('--list-titles', action="store_true", default=False)
 
     args = parser.parse_args()
@@ -152,4 +157,4 @@ if __name__ == "__main__":
     assert len(elements) % 2 == 0
     conditions = [Condition(elements[i], elements[i+1]) for i in range(0, len(elements), 2)]
 
-    main(args.filename, columns=columns, conditions=conditions, list_titles = args.list_titles)
+    main(args.filename, columns=columns, conditions=conditions, list_titles = args.list_titles, unique=args.unique)
