@@ -3,6 +3,8 @@
 # Dumps from file to clipboard
 if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
   wl-copy "$@"
+elif [[ "$(uname -s)" == 'Darwin' ]]; then
+  echo -n "$@" | pbcopy
 else
   xclip -sel clipboard -i "$@"
 fi

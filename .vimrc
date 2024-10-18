@@ -404,7 +404,7 @@ vnoremap <S-Tab> <
 vnoremap <Tab> >
 
 " Copy a selection into system clipboard
-vnoremap <C-C> ""y:call system("wl-copy", @")<CR>
+vnoremap <C-C> ""y:call system("clip-inline", @")<CR>
 
 " Relative numbers
 nnoremap <C-N> :set number! <CR> :set relativenumber! <CR>

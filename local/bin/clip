@@ -24,6 +24,8 @@ fi
 echo "Dumping '${filepath}' to clipboard..."
 if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
   wl-copy < $filepath
+elif [[ "$(uname -s)" == 'Darwin' ]]; then
+  pbcopy < $filepath
 else
   xclip -sel clipboard < $filepath
 fi
