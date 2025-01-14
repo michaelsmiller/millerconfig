@@ -51,7 +51,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='grep -E --color=auto'
 
 # my own highly useful alias
-alias grepp="grep --color=auto -RFIn --exclude='*.ipynb' --exclude-dir='.pyre' --exclude='.tags' --exclude-dir='*.egg-info' --exclude-dir='.git' --exclude-dir='.pytest_cache' --exclude-dir='.venv' --exclude='__pycache__'"
+alias grepp="grep --color=auto -RFIn --exclude='*.ipynb' --exclude-dir='.pyre' --exclude='.tags' --exclude-dir='*.egg-info' --exclude-dir='.git' --exclude-dir='.pytest_cache' --exclude-dir='.venv' --exclude='__pycache__' --exclude-dir='.mypy_cache'"
 alias tree="tree -I '__pycache__|*.egg-info'"
 
 # some more ls aliases
@@ -150,14 +150,8 @@ pdf() {
 
 alias get-audio="youtube-dl -x --audio-format mp3 --audio-quality 0"
 
-# Arch desktop only
-alias refresh-desktop="update-desktop-database ${HOME}/.local/share/applications"
 # Useful everywhere when lm_sensors doesn't have the GPU drivers for some reason
 alias gpu-temp="nvidia-smi -q -d temperature | grep -i 'GPU Current' | cut -d':' -f2"
-
-# Jai
-export PATH="$HOME/software/jai/bin:$PATH"
-alias jai="jai-linux -x64"
 
 # for ctags
 alias tags="ctags -R -f .tags"
@@ -221,8 +215,6 @@ database () {
   docker compose down --remove-orphans postgres && docker compose up -d postgres
   popd
 }
-alias pg_restore="docker exec -it postgres-postgres-1 pg_restore"
-alias pg_dump="docker exec -it postgres-postgres-1 pg_dump"
 
 alias dashboard="npm run dev-8501"
 
@@ -269,3 +261,5 @@ export FZF_CTRL_T_OPTS="
 --bind 'enter:become(vim {} > /dev/tty)'
 --walker-skip .git,__pycache__
 "
+
+. "$HOME/.local/bin/env"

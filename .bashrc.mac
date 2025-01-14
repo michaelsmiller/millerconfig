@@ -11,3 +11,4 @@ export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 alias ls='ls --color'
 alias open='open'
 
+alias jai="jai-macos"

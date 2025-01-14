@@ -1,0 +1,10 @@
+alias pg_restore="docker exec -it postgres-postgres-1 pg_restore"
+alias pg_dump="docker exec -it postgres-postgres-1 pg_dump"
+
+# Jai
+export PATH="$HOME/software/jai/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+alias jai="jai-linux -x64"
+
+# This might be plasma only
+alias refresh-desktop="update-desktop-database ${HOME}/.local/share/applications"

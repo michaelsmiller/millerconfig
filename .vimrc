@@ -150,6 +150,7 @@ augroup type_setting
   autocmd BufNewFile,BufRead *.dockerignore  set syntax=conf   " Dockerignore file
   autocmd BufNewFile,BufRead go.mod  set syntax=gomod   " go.mod files
   autocmd BufNewFile,BufRead talosconfig  set syntax=yaml   " Talos client config
+  autocmd BufNewFile,BufRead alembic.ini  set syntax=toml   " Alembic config
 augroup END
 
 " For overriding defaults in vim-commentary plugin
