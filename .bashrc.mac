@@ -8,6 +8,8 @@ export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/Applications/Postgres.app/Contents/Versions/16/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
+export PATH="$PATH:${HOME}/.lmstudio/bin"
+
 alias ls='ls --color'
 alias open='open'
 

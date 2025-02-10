@@ -28,6 +28,7 @@ Plugin 'jansedivy/jai.vim'              " Jai
 Plugin 'beyondmarc/glsl.vim'            " GLSL
 Plugin 'shmup/vim-sql-syntax'           " SQL
 Plugin 'ekalinin/Dockerfile.vim'        " Dockerfile
+Plugin 'leafgarland/typescript-vim'     " Typescript
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -164,6 +165,7 @@ augroup comment_strings
   autocmd Syntax sql set commentstring=--\ %s
   autocmd Syntax sh  set commentstring=#\ %s
   autocmd Syntax toml set commentstring=#\ %s
+  autocmd Syntax svelte set commentstring=<!--\ %s\ -->
   " Newline should make comment on the next line
   autocmd Syntax python set formatoptions+=ro
   autocmd Syntax go     set formatoptions+=ro
