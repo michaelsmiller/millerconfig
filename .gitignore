@@ -3,3 +3,4 @@
 .netrwhist
 
 .tmux/plugins
+*.swp

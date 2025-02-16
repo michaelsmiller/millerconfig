@@ -76,6 +76,13 @@
     # Framework
     framework-tool
     fw-ectool
+    (pkgs.wrapOBS {
+      plugins = with pkgs.obs-studio-plugins; [
+        wlrobs
+        obs-backgroundremoval
+        obs-pipewire-audio-capture
+      ];
+    })
   ];
 
   # User settings and packages
@@ -98,11 +105,6 @@
     defaultEditor = true;
   };
 
-  # Streaming
-  programs.obs-studio = {
-    enable = true;
-  };
-
   # Browser
   programs.firefox.enable = true;
 
@@ -113,4 +115,16 @@
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
   };
+
+
+  # TODO: create home-manager BS and add this there
+
+  # dconf.settings = {
+  #   "/org/gnome/desktop/peripherals/mouse" = {
+  #     natural-scroll = true;
+  #   };
+  #   "/org/gnome/desktop/interface" = {
+  #     color-scheme = "prefer-dark";
+  #   };
+  # };
 }
