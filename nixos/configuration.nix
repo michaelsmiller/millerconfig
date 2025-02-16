@@ -5,12 +5,12 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports =
-    [
-      # TODO: figure this out
-      # nixos-hardware.nixosModules.framework-16-7040-amd
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # TODO: figure this out
+    # nixos-hardware.nixosModules.framework-16-7040-amd
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
 
   system.stateVersion = "24.11"; # default values, we override these in this file
   nixpkgs.config.allowUnfree = true; # allow "unfree" packages
@@ -72,10 +72,13 @@
   environment.systemPackages = with pkgs; [
     lf
     wget
+    pkgs.home-manager
 
     # Framework
     framework-tool
     fw-ectool
+
+    # TODO: move to home-manager config (look up in obs Nix page)
     (pkgs.wrapOBS {
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
@@ -91,11 +94,6 @@
     description = "Michael Miller";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      fzf
-      git
-      unzip
-      tmux
-      discord
     ];
   };
 
@@ -116,15 +114,14 @@
     localNetworkGameTransfers.openFirewall = true;
   };
 
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      michael = import ./home.nix;
+    };
+  };
+
 
   # TODO: create home-manager BS and add this there
 
-  # dconf.settings = {
-  #   "/org/gnome/desktop/peripherals/mouse" = {
-  #     natural-scroll = true;
-  #   };
-  #   "/org/gnome/desktop/interface" = {
-  #     color-scheme = "prefer-dark";
-  #   };
-  # };
 }
