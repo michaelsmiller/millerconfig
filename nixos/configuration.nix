@@ -70,22 +70,13 @@
 
 
   environment.systemPackages = with pkgs; [
-    lf
-    wget
+    lf # directory search thing in terminal
+    wget # required for a ton of shit
     pkgs.home-manager
 
     # Framework
     framework-tool
     fw-ectool
-
-    # TODO: move to home-manager config (look up in obs Nix page)
-    (pkgs.wrapOBS {
-      plugins = with pkgs.obs-studio-plugins; [
-        wlrobs
-        obs-backgroundremoval
-        obs-pipewire-audio-capture
-      ];
-    })
   ];
 
   # User settings and packages
@@ -97,21 +88,18 @@
     ];
   };
 
-  # vim
-  programs.vim = {
-    enable = true;
-    defaultEditor = true;
-  };
-
-  # Browser
-  programs.firefox.enable = true;
-
   # Steam
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
+  };
+
+  # vim
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
   };
 
   home-manager = {

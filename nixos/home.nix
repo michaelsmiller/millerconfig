@@ -18,6 +18,36 @@
       pkgs.discord
   ];
 
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-backgroundremoval
+      obs-pipewire-audio-capture
+    ];
+  }; 
+
+  programs.firefox = {
+    enable = true;
+  };
+
+  # Desktop settings
+
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/peripherals/mouse" = {
+        natural-scroll = false;
+      };
+      "org/gnome/desktop/peripherals/touchpad" = {
+        natural-scroll = false; # "Gnome calls the good way "traditional"
+      };
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
+    };
+  };
+
   # Link dotfiles from nix store to local directory...
   home.file = {
   };
@@ -27,14 +57,4 @@
     EDITOR = "vim";
   };
 
-  # Desktop settings
-
-  # dconf.settings = {
-  #   "/org/gnome/desktop/peripherals/mouse" = {
-  #     natural-scroll = true;
-  #   };
-  #   "/org/gnome/desktop/interface" = {
-  #     color-scheme = "prefer-dark";
-  #   };
-  # };
 }
