@@ -11,9 +11,12 @@
 
   # packages in user space
   home.packages = [
+      # terminal utilities
       pkgs.fzf
-      pkgs.git
       pkgs.unzip
+      pkgs.xclip
+      pkgs.git
+
       pkgs.tmux
       pkgs.discord
   ];
@@ -29,6 +32,16 @@
 
   programs.firefox = {
     enable = true;
+    profiles = {
+      default = {
+        id = 0;
+        name = "default";
+        isDefault = true;
+        settings = {
+          "gfx.color_management.native_srgb" = true;
+        };
+      };
+    };
   };
 
   # Desktop settings
@@ -44,6 +57,15 @@
       };
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
+      };
+
+      "org/gnome/ally/magnifier" = {
+        mag-factor = 1.5;
+      };
+
+      # Terminal
+      "org/gnome/Console" = {
+        font-scale = 1.2;
       };
     };
   };
