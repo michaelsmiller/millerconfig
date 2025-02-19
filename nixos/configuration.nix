@@ -79,6 +79,16 @@
     fw-ectool
   ];
 
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [ "--update-input" "nixpkgs" ];
+    dates = "04:00";
+    # randomizedDelaySec = "45min";
+    # allowReboot = true;
+  };
+
+
   # User settings and packages
   users.users.michael = {
     isNormalUser = true;
