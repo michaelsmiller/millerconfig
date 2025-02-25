@@ -7,8 +7,8 @@
 {
   imports = [
     # TODO: figure this out
-    # nixos-hardware.nixosModules.framework-16-7040-amd
     ./hardware-configuration.nix
+    inputs.nixos-hardware.nixosModules.framework-16-7040-amd
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -67,8 +67,8 @@
     pulse.enable = true;
   };
 
-  programs.dconf.enable = true; # probably already there
-
+  # for noise cancelation
+  programs.noisetorch.enable = true; # needs root access
 
   environment.systemPackages = with pkgs; [
     lf # directory search thing in terminal
@@ -95,8 +95,8 @@
     isNormalUser = true;
     description = "Michael Miller";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    ];
+    # packages = with pkgs; [
+    # ];
   };
 
   # Steam
