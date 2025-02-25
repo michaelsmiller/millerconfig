@@ -68,6 +68,8 @@
     pulse.enable = true;
   };
 
+  programs.dconf.enable = true; # probably already there
+
 
   environment.systemPackages = with pkgs; [
     lf # directory search thing in terminal

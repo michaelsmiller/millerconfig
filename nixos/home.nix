@@ -32,6 +32,13 @@
 
   programs.firefox = {
     enable = true;
+    package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+      extraPolicies = {
+        ExtensionSettings = {
+          "*".installation_mode = "blocked"; # blocks addons except for those here
+        };
+      };
+    };
     profiles = {
       default = {
         id = 0;
