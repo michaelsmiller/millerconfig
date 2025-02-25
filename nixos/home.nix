@@ -1,12 +1,10 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   programs.home-manager.enable = true;
   home.stateVersion = "24.11"; # Changing this will change defaults
   home.username = "michael";
   home.homeDirectory = "/home/michael";
-
-  nixpkgs.config.allowUnfree = true; # copied from main config
 
 
   # packages in user space
@@ -19,6 +17,7 @@
 
       pkgs.tmux
       pkgs.discord
+      pkgs.spotify
   ];
 
   programs.obs-studio = {
@@ -32,13 +31,28 @@
 
   programs.firefox = {
     enable = true;
-    package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+    package = pkgs.wrapFirefox inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin.unwrapped {
       extraPolicies = {
         ExtensionSettings = {
           "*".installation_mode = "blocked"; # blocks addons except for those here
+          "uBlock0@raymondhill.net" = {
+            install_url = "https:addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+            installation_mode = "force_installed";
+          };
+        };
+        AppAutoUpdate = false;
+        DisablePocket = true;
+        FirefoxHome = {
+          Pocket = false;
+          Snippets = false;
+        };
+        UserMessaging = {
+          ExtensionRecommendations = false;
+          SkipOnboarding = true;
         };
       };
     };
+
     profiles = {
       default = {
         id = 0;
@@ -46,6 +60,11 @@
         isDefault = true;
         settings = {
           "gfx.color_management.native_srgb" = true;
+
+          # nightly-only
+          "sidebar.revamp" = true; # Not sure what this means
+          "sidebar.verticalTabs" = true; # sidebar tabs instead of horizontal
+          "sidebar.main.tools" = "syncedtabs"; # just have a button for synced tabs
         };
       };
     };

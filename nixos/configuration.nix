@@ -13,7 +13,6 @@
   ];
 
   system.stateVersion = "24.11"; # default values, we override these in this file
-  nixpkgs.config.allowUnfree = true; # allow "unfree" packages
   nix.settings.experimental-features = [ "nix-command" "flakes" ]; # needed for flakes
 
   services.fwupd.enable = true; # Recommended for updating Linux firmware (required for Framework)
@@ -115,7 +114,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs pkgs; };
     users = {
       michael = import ./home.nix;
     };
