@@ -2,12 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, pkgs-unfree, inputs, ... }:
 
 {
   imports = [
     # TODO: figure this out
-    ./hardware-configuration.nix
+    ./hardware-configuration.nix # generated
     inputs.nixos-hardware.nixosModules.framework-16-7040-amd
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -23,7 +23,7 @@
 
   # Networking
   networking.hostName = "hydrogen";
-  networking.networkmanager.enable = true;
+
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -73,7 +73,9 @@
   environment.systemPackages = with pkgs; [
     lf # directory search thing in terminal
     wget # required for a ton of shit
+    jq # required for running PIA with wireguard
     pkgs.home-manager
+    wireguard-tools
 
     # Framework
     framework-tool
@@ -95,12 +97,11 @@
     isNormalUser = true;
     description = "Michael Miller";
     extraGroups = [ "networkmanager" "wheel" ];
-    # packages = with pkgs; [
-    # ];
   };
 
   # Steam
   programs.steam = {
+    package = pkgs-unfree.steam;
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
@@ -114,10 +115,12 @@
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs pkgs; };
+    extraSpecialArgs = { inherit inputs pkgs-unfree ; };
     users = {
       michael = import ./home.nix;
     };
+    useGlobalPkgs = true;
+    useUserPackages = true;
   };
 
 

@@ -4,10 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    nixos-hardware = {
-      url = "github:NixOS/nixos-hardware";
-      inputs.nixpkgs.follows = "nixpkgs"; # use the same nixpkgs
-    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     firefox = {
       url = "github:nix-community/flake-firefox-nightly";
@@ -24,15 +21,15 @@
   let
     system = "x86_64-linux";
 
-    # pkgs = nixpkgs.legacyPackages.${system};
-    pkgs = import nixpkgs {
+    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs-unfree = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
     };
   in
   {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs system pkgs; };
+      specialArgs = { inherit inputs system pkgs-unfree ; };
       modules = [
         ./configuration.nix
       ];

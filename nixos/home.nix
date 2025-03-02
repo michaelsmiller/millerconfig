@@ -1,7 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, pkgs-unfree, inputs, ... }:
 
 {
-  programs.home-manager.enable = true;
+  programs.home-manager = {
+    enable = true;
+  };
   home.stateVersion = "24.11"; # Changing this will change defaults
   home.username = "michael";
   home.homeDirectory = "/home/michael";
@@ -16,8 +18,8 @@
       pkgs.git
 
       pkgs.tmux
-      pkgs.discord
-      pkgs.spotify
+      pkgs-unfree.discord
+      pkgs-unfree.spotify
   ];
 
   programs.obs-studio = {
@@ -37,6 +39,10 @@
           "*".installation_mode = "blocked"; # blocks addons except for those here
           "uBlock0@raymondhill.net" = {
             install_url = "https:addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          "ImprovedTube" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/youtube-addon/latest.xpi";
             installation_mode = "force_installed";
           };
         };
