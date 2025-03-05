@@ -337,7 +337,6 @@ inoremap <expr> <C-G> CloseParens('"')
 
 " Very important mappings right here
 inoremap jk <Esc>
-" inoremap <Esc> <nop>
 
 
 " Movement
@@ -358,6 +357,9 @@ noremap <C-K> <C-W>k
 noremap <C-L> <C-W>l
 
 inoremap <C-W> <C-O><C-W>
+
+" Prevents paste from overwriting register
+vnoremap p pgvy
 
 " Moving up and down
 nnoremap <C-J> 5j
