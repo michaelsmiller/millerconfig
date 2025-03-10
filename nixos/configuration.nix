@@ -46,6 +46,8 @@
   services.xserver.enable = true; # turns X11 on (as opposed to Wayland)
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  # For some reason I also needed to explicitly turn Wayland off
+  services.xserver.displayManager.gdm.wayland = false;
 
   # Keyboard input
   services.xserver.xkb = {
@@ -82,6 +84,16 @@
     fw-ectool
   ];
 
+  # FHS stuff, for development
+  services.envfs.enable = true; # envfs fills out local variables
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+    ];
+  };
+
   system.autoUpgrade = {
     enable = true;
     flake = inputs.self.outPath;
@@ -107,6 +119,8 @@
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
   };
+
+  programs.gamemode.enable = true;
 
   # vim
   programs.vim = {

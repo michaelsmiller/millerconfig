@@ -20,6 +20,7 @@
       pkgs.tmux
       pkgs-unfree.discord
       pkgs-unfree.spotify
+      pkgs.inkscape
   ];
 
   programs.obs-studio = {
