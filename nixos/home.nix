@@ -100,6 +100,10 @@
       "org/gnome/Console" = {
         font-scale = 1.2;
       };
+
+      "org/gnome/shell" = {
+        enabled-extensions = ["x11gestures@joseexposito.github.io"];
+      };
     };
   };
 

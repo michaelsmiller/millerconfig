@@ -76,13 +76,18 @@
     lf # directory search thing in terminal
     wget # required for a ton of shit
     jq # required for running PIA with wireguard
-    pkgs.home-manager
-    wireguard-tools
+    home-manager
+    # wireguard-tools
+
+    touchegg
+    gnomeExtensions.x11-gestures 
 
     # Framework
     framework-tool
     fw-ectool
   ];
+
+  services.touchegg.enable = true; # finger gestures on touch-pad
 
   # FHS stuff, for development
   services.envfs.enable = true; # envfs fills out local variables
@@ -91,6 +96,10 @@
     libraries = with pkgs; [
       stdenv.cc.cc
       zlib
+      zstd
+      util-linux
+      libGL
+      glib
     ];
   };
 
@@ -120,7 +129,7 @@
     localNetworkGameTransfers.openFirewall = true;
   };
 
-  programs.gamemode.enable = true;
+  # programs.gamemode.enable = true;
 
   # vim
   programs.vim = {
