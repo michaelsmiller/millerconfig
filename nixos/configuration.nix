@@ -94,13 +94,23 @@
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
-      stdenv.cc.cc
       zlib
       zstd
       util-linux
       libGL
-      glib
+      glibc
     ];
+  };
+
+  environment.etc = {
+    "ld.so.conf" = {
+      # nix-ld puts symlinks of libraries we add in this directory.
+      # The jai compiler checks /etc/ld.so.conf for where to look for libraries
+      # first, so the easiest place to make sure it finds them is to create this file
+      text = ''
+        /run/current-system/sw/share/nix-ld/lib
+      '';
+    };
   };
 
   system.autoUpgrade = {
@@ -129,6 +139,7 @@
     localNetworkGameTransfers.openFirewall = true;
   };
 
+  # NOTE: last time I tried this it caused crashes in videogames
   # programs.gamemode.enable = true;
 
   # vim
@@ -145,8 +156,4 @@
     useGlobalPkgs = true;
     useUserPackages = true;
   };
-
-
-  # TODO: create home-manager BS and add this there
-
 }
