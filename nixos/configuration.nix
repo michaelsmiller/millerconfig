@@ -85,6 +85,11 @@
     # Framework
     framework-tool
     fw-ectool
+
+    # development
+    gdb
+
+    vesktop
   ];
 
   services.touchegg.enable = true; # finger gestures on touch-pad
@@ -99,6 +104,7 @@
       util-linux
       libGL
       glibc
+      xorg.libX11
     ];
   };
 

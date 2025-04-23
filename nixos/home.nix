@@ -18,9 +18,10 @@
       pkgs.git
 
       pkgs.tmux
-      pkgs-unfree.discord
       pkgs-unfree.spotify
       pkgs.inkscape
+
+      pkgs-unfree.discord
   ];
 
   programs.obs-studio = {
@@ -101,6 +102,7 @@
         font-scale = 1.2;
       };
 
+      # Gestures, like 3 finger swipe
       "org/gnome/shell" = {
         enabled-extensions = ["x11gestures@joseexposito.github.io"];
       };

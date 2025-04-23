@@ -8,3 +8,6 @@ alias jai="jai-linux -x64"
 
 # This might be plasma only
 alias refresh-desktop="update-desktop-database ${HOME}/.local/share/applications"
+
+# Nixos
+alias delete-old-boot-entries="sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 1d"
