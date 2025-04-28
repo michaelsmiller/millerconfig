@@ -148,7 +148,7 @@ pdf() {
   fi
 }
 
-alias get-audio="youtube-dl -x --audio-format mp3 --audio-quality 0"
+alias get-audio="yt-dlp -x --audio-format mp3 --audio-quality 0"
 
 # Useful everywhere when lm_sensors doesn't have the GPU drivers for some reason
 alias gpu-temp="nvidia-smi -q -d temperature | grep -i 'GPU Current' | cut -d':' -f2"
