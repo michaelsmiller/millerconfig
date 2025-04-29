@@ -11,6 +11,5 @@ export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 export PATH="$PATH:${HOME}/.lmstudio/bin"
 
 alias ls='ls --color'
-alias open='open'
 
 alias jai="jai-macos"

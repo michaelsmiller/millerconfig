@@ -15,16 +15,25 @@ filepath="$1"
 filename=$(basename -- "$filepath")
 extension="${filename##*.}"
 
-# If file is Markdown, we will want to display it with Grip and view in Browser
-if [[ "$extension" == "md" ]]; then
-  # Uncomment below line if you actually want to view in GitHub format
-  # Otherwise, xdg-open actually just displays markdown correctly.
-  # grip "$filepath"
-  xdg-open "$filepath"
-# If file is not Markdown, assume it is an image and display with xdg-open
-# elif [[ "$extension" == "csv" ]]; then
-#   # Gets rid of annoying document recovery screen when opening CSVs
-#   libreoffice --calc --norestore -o "$filepath"
-else
-  xdg-open "$filepath"
+if [[ "$OS" == "OSX" ]]; then
+  if [[ "$extension" == "mp3" ]]; then
+    # Default on Apple is to use the dumb Music player
+    /usr/bin/open -a "quicktime player" "$filepath"
+  else
+    /usr/bin/open "$filepath"
+  fi
+elif [[ "$OS" == "LINUX" ]]; then
+  # If file is Markdown, we will want to display it with Grip and view in Browser
+  if [[ "$extension" == "md" ]]; then
+    # Uncomment below line if you actually want to view in GitHub format
+    # Otherwise, xdg-open actually just displays markdown correctly.
+    # grip "$filepath"
+    xdg-open "$filepath"
+  # If file is not Markdown, assume it is an image and display with xdg-open
+  # elif [[ "$extension" == "csv" ]]; then
+  #   # Gets rid of annoying document recovery screen when opening CSVs
+  #   libreoffice --calc --norestore -o "$filepath"
+  else
+    xdg-open "$filepath"
+  fi
 fi

@@ -224,8 +224,10 @@ alias dashboard="npm run dev-8501"
 alias flake8-unused="pdm run flake8 --select=F4"
 
 if [[ -f "/System/Library/Kernels/kernel" ]] && [[ -f "${HOME}/.bashrc.mac" ]]; then
+  export OS="OSX"
   source "${HOME}/.bashrc.mac"
 elif [[ -f "${HOME}/.bashrc.linux" ]]; then
+  export OS="LINUX"
   source "${HOME}/.bashrc.linux"
 fi
 
