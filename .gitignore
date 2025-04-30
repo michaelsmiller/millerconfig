@@ -4,3 +4,5 @@
 
 .tmux/plugins
 *.swp
+
+nixos/hardware-configuration.nix
