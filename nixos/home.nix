@@ -14,6 +14,7 @@
       # terminal utilities
       pkgs.fzf
       pkgs.unzip
+      pkgs.zip
       pkgs.xclip
       pkgs.git
 
@@ -46,6 +47,11 @@
           "ImprovedTube" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/youtube-addon/latest.xpi";
             installation_mode = "force_installed";
+          };
+          "LeechBlock" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/leechblock-ng/latest.xpi";
+            installation_mode = "force_installed";
+            # TODO: Add youtube config here
           };
         };
         AppAutoUpdate = false;

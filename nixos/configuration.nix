@@ -8,7 +8,7 @@
   imports = [
     # TODO: figure this out
     ./hardware-configuration.nix # generated
-    inputs.nixos-hardware.nixosModules.framework-16-7040-amd
+    # inputs.nixos-hardware.nixosModules.framework-16-7040-amd # TODO: pull out
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -22,7 +22,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Networking
-  networking.hostName = "hydrogen";
+  # networking.hostName = "hydrogen";
+  networking.hostName = "genghis";
 
 
   # Set your time zone.
@@ -43,18 +44,22 @@
   };
 
   # X11
-  services.xserver.enable = true; # turns X11 on (as opposed to Wayland)
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  # For some reason I also needed to explicitly turn Wayland off
-  services.xserver.displayManager.gdm.wayland = false;
+  services.xserver = {
+    enable = true;
 
-  # Keyboard input
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+    desktopManager.gnome.enable = true;
+
+    displayManager.gdm.enable = true;
+    displayManager.gdm.wayland = false; # turn off Wayland
+
+    xkb = {
+      # keyboard layout
+      layout = "us";
+      variant = "";
+    };
+    # videoDrivers = ["nvidia"]; # not sure if this is necessary
   };
-  services.libinput.enable = true; # touchpad input
+  # services.libinput.enable = true; # touchpad input
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -75,24 +80,31 @@
   environment.systemPackages = with pkgs; [
     lf # directory search thing in terminal
     wget # required for a ton of shit
-    jq # required for running PIA with wireguard
     home-manager
+
+    # TODO: WIREGUARD
     # wireguard-tools
+    # jq # required for running PIA with wireguard
 
-    touchegg
-    gnomeExtensions.x11-gestures 
-
-    # Framework
-    framework-tool
-    fw-ectool
+    #### Laptop stuff
+    # touchegg
+    # gnomeExtensions.x11-gestures 
+    # framework-tool
+    # fw-ectool
 
     # development
     gdb
 
+    # Discord replacement, requires some weird permissions
     vesktop
+
+    # steam related
+    mangohud # performance monitoring
+    protonup-qt # installing custom proton versions
   ];
 
-  services.touchegg.enable = true; # finger gestures on touch-pad
+  # LAPTOP
+  # services.touchegg.enable = true; # finger gestures on touch-pad
 
   # FHS stuff, for development
   services.envfs.enable = true; # envfs fills out local variables
@@ -110,7 +122,7 @@
 
   environment.etc = {
     "ld.so.conf" = {
-      # nix-ld puts symlinks of libraries we add in this directory.
+      # nix-ld puts symlinks of libraries we add in the specific folder below.
       # The jai compiler checks /etc/ld.so.conf for where to look for libraries
       # first, so the easiest place to make sure it finds them is to create this file
       text = ''
@@ -124,8 +136,7 @@
     flake = inputs.self.outPath;
     flags = [ "--update-input" "nixpkgs" ];
     dates = "04:00";
-    # randomizedDelaySec = "45min";
-    # allowReboot = true;
+    # allowReboot = true; # Probably don't want this
   };
 
 
@@ -144,9 +155,6 @@
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
   };
-
-  # NOTE: last time I tried this it caused crashes in videogames
-  # programs.gamemode.enable = true;
 
   # vim
   programs.vim = {

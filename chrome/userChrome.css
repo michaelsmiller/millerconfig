@@ -1,9 +1,0 @@
-/* Makes topbar tabs invisible so they can only be viewed from the tab tree */
-#tabbrowser-tabs {
-  visibility: collapse !important;
-} 
-
-/* Makes massive sidebar header disappear*/
-#sidebar-header {
-  display: none;
-}

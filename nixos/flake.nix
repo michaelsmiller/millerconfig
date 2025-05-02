@@ -28,7 +28,7 @@
     };
   in
   {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.genghis = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs system pkgs-unfree ; };
       modules = [
         ./configuration.nix
