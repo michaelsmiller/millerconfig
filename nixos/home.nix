@@ -86,34 +86,34 @@
 
   # Desktop settings
 
-  dconf = {
-    enable = true;
-    settings = {
-      "org/gnome/desktop/peripherals/mouse" = {
-        natural-scroll = false;
-      };
-      "org/gnome/desktop/peripherals/touchpad" = {
-        natural-scroll = false; # "Gnome calls the good way "traditional"
-      };
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-      };
+  # dconf = {
+  #   enable = true;
+  #   settings = {
+  #     "org/gnome/desktop/peripherals/mouse" = {
+  #       natural-scroll = false;
+  #     };
+  #     "org/gnome/desktop/peripherals/touchpad" = {
+  #       natural-scroll = false; # "Gnome calls the good way "traditional"
+  #     };
+  #     "org/gnome/desktop/interface" = {
+  #       color-scheme = "prefer-dark";
+  #     };
 
-      "org/gnome/ally/magnifier" = {
-        mag-factor = 1.5;
-      };
+  #     "org/gnome/ally/magnifier" = {
+  #       mag-factor = 1.5;
+  #     };
 
-      # Terminal
-      "org/gnome/Console" = {
-        font-scale = 1.2;
-      };
+  #     # Terminal
+  #     "org/gnome/Console" = {
+  #       font-scale = 1.2;
+  #     };
 
-      # Gestures, like 3 finger swipe
-      "org/gnome/shell" = {
-        enabled-extensions = ["x11gestures@joseexposito.github.io"];
-      };
-    };
-  };
+  #     # Gestures, like 3 finger swipe
+  #     "org/gnome/shell" = {
+  #       enabled-extensions = ["x11gestures@joseexposito.github.io"];
+  #     };
+  #   };
+  # };
 
   # Link dotfiles from nix store to local directory...
   home.file = {

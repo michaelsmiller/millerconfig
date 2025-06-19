@@ -9,6 +9,7 @@
     # TODO: figure this out
     ./hardware-configuration.nix # generated
     # inputs.nixos-hardware.nixosModules.framework-16-7040-amd # TODO: pull out
+    ./disko-config.nix # disk configuration
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -43,26 +44,55 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # X11
+  # Nvidia
+  hardware.graphics.enable = true;
+  hardware.nvidia = {
+    package = pkgs-unfree.linuxPackages.nvidiaPackages.stable
+
+    modesetting.enable = true; # need kernel modesetting
+    powerManagement.enable = true; # Saves VRAM to /tmp when sleeping
+    open = true; # use open source kernel module
+    nvidiaSettings = true;
+  };
+  # boot.kernelParams = [ "module_blacklist=amdgpu" ]; # If there are black screen issues, maybe this will fix it
+
+
   services.xserver = {
     enable = true;
 
-    desktopManager.gnome.enable = true;
-
-    displayManager.gdm.enable = true;
-    displayManager.gdm.wayland = false; # turn off Wayland
+    ##### X11 / Gnome
+    # desktopManager.gnome.enable = true;
+    # displayManager.gdm.enable = true;
+    # displayManager.gdm.wayland = false; # turn off Wayland
 
     xkb = {
       # keyboard layout
       layout = "us";
       variant = "";
     };
-    # videoDrivers = ["nvidia"]; # not sure if this is necessary
+    videoDrivers = ["nvidia"]; # not sure if this is necessary
   };
+
+
+  # Wayland / Plasma
+  services.desktopManager.plasma6 = {
+    enable = true;
+    enableQt5Integration = false;
+  };
+  services.displayManager = {
+    defaultSession = "plasma";
+    sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
+  };
+
+
   # services.libinput.enable = true; # touchpad input
+  # services.touchegg.enable = true; # finger gestures on touch-pad
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # services.printing.enable = true;
 
   # Audio
   services.pulseaudio.enable = false;
@@ -82,10 +112,6 @@
     wget # required for a ton of shit
     home-manager
 
-    # TODO: WIREGUARD
-    # wireguard-tools
-    # jq # required for running PIA with wireguard
-
     #### Laptop stuff
     # touchegg
     # gnomeExtensions.x11-gestures 
@@ -96,17 +122,14 @@
     gdb
 
     # Discord replacement, requires some weird permissions
-    vesktop
+    # vesktop
 
     # steam related
     mangohud # performance monitoring
     protonup-qt # installing custom proton versions
   ];
 
-  # LAPTOP
-  # services.touchegg.enable = true; # finger gestures on touch-pad
-
-  # FHS stuff, for development
+  # FHS stuff, for software development
   services.envfs.enable = true; # envfs fills out local variables
   programs.nix-ld = {
     enable = true;
