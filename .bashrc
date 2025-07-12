@@ -266,4 +266,5 @@ export FZF_CTRL_T_OPTS="
 --walker-skip .git,__pycache__
 "
 
-. "$HOME/.local/bin/env"
+# What is this even for?????
+# . "$HOME/.local/bin/env"
