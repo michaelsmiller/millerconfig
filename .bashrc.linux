@@ -10,4 +10,11 @@ alias jai="jai-linux -x64"
 alias refresh-desktop="update-desktop-database ${HOME}/.local/share/applications"
 
 # Nixos
-alias delete-old-boot-entries="sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 1d"
+alias rebuild-nixos="sudo nixos-rebuild switch --flake .#genghis --upgrade"
+collect-garbage () {
+  nix-collect-garbage
+  echo "Deleted unused Nix store files"
+  echo ""
+  echo "Deleting boot entries older than 1 day, need root permissions"
+  sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 1d
+}
