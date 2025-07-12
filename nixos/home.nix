@@ -36,7 +36,7 @@
 
   programs.firefox = {
     enable = true;
-    package = pkgs.wrapFirefox inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin.unwrapped {
+    package = pkgs-unfree.wrapFirefox inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin.unwrapped {
       extraPolicies = {
         ExtensionSettings = {
           "*".installation_mode = "blocked"; # blocks addons except for those here

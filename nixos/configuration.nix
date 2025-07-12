@@ -6,10 +6,9 @@
 
 {
   imports = [
-    # TODO: figure this out
     ./hardware-configuration.nix # generated
     # inputs.nixos-hardware.nixosModules.framework-16-7040-amd # TODO: pull out
-    ./disko-config.nix # disk configuration
+    inputs.disko.nixosModules.disko ./disko-config.nix # disk configuration
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -47,7 +46,7 @@
   # Nvidia
   hardware.graphics.enable = true;
   hardware.nvidia = {
-    package = pkgs-unfree.linuxPackages.nvidiaPackages.stable
+    package = pkgs-unfree.linuxPackages.nvidiaPackages.stable;
 
     modesetting.enable = true; # need kernel modesetting
     powerManagement.enable = true; # Saves VRAM to /tmp when sleeping

@@ -1,7 +1,7 @@
 {
   disko.devices = {
     disk.main = {
-      device = "/command/line/overrides/this/value"; # MUST OVERRIDE THIS BEFORE RUNNING DISKO
+      device = "/dev/nvme0n1"; # MUST OVERRIDE THIS BEFORE RUNNING DISKO
       type = "disk";
       content = {
         type = "gpt";
