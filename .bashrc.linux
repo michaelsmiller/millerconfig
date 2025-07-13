@@ -1,16 +1,18 @@
+# postgres with docker
 alias pg_restore="docker exec -it postgres-postgres-1 pg_restore"
 alias pg_dump="docker exec -it postgres-postgres-1 pg_dump"
+
+# graphics
+export __NV_DISABLE_EXPLICIT_SYNC=1
+export QT_QPA_PLATFORM=xcb
 
 # Jai
 export PATH="$HOME/software/jai/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
 alias jai="jai-linux -x64"
 
-# This might be plasma only
-alias refresh-desktop="update-desktop-database ${HOME}/.local/share/applications"
-
 # Nixos
-alias rebuild-nixos="sudo nixos-rebuild switch --flake .#genghis --upgrade"
+alias rebuild-nixos="sudo nixos-rebuild switch --flake ${HOME}/millerconfig/nixos#genghis --upgrade"
 collect-garbage () {
   nix-collect-garbage
   echo "Deleted unused Nix store files"

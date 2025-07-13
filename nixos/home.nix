@@ -32,6 +32,10 @@
       obs-backgroundremoval
       obs-pipewire-audio-capture
     ];
+
+    package = pkgs.obs-studio.override {
+      cudaSupport = true;
+    };
   }; 
 
   programs.firefox = {

@@ -15,7 +15,7 @@
   system.stateVersion = "24.11"; # default values, we override these in this file
   nix.settings.experimental-features = [ "nix-command" "flakes" ]; # needed for flakes
 
-  services.fwupd.enable = true; # Recommended for updating Linux firmware (required for Framework)
+  # services.fwupd.enable = true; # Recommended for updating Linux firmware (required for Framework)
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -84,6 +84,10 @@
       enable = true;
       wayland.enable = true;
     };
+  };
+
+  environment.variables = {
+    __NV_DISABLE_EXPLICIT_SYNC=1; # Needed for OBS + Wayland + Nvidia to work properly
   };
 
 
