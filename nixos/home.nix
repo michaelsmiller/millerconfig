@@ -4,7 +4,7 @@
   programs.home-manager = {
     enable = true;
   };
-  home.stateVersion = "24.11"; # Changing this will change defaults
+  home.stateVersion = "25.05"; # Changing this will change defaults
   home.username = "michael";
   home.homeDirectory = "/home/michael";
 
@@ -17,6 +17,7 @@
       pkgs.zip
       pkgs.xclip
       pkgs.git
+      pkgs.htop
 
       pkgs.tmux
       pkgs-unfree.spotify

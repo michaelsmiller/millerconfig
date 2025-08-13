@@ -14,9 +14,9 @@ alias jai="jai-linux -x64"
 # Nixos
 alias rebuild-nixos="sudo nixos-rebuild switch --flake ${HOME}/millerconfig/nixos#genghis --upgrade"
 collect-garbage () {
-  nix-collect-garbage
-  echo "Deleted unused Nix store files"
+  echo "Deleting all but the last 3 boot entries, may need root permission"
+  sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system +3
   echo ""
-  echo "Deleting boot entries older than 1 day, need root permissions"
-  sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 1d
+  echo "Deleted unused Nix store files"
+  nix-collect-garbage
 }
