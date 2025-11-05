@@ -29,6 +29,7 @@ Plugin 'beyondmarc/glsl.vim'            " GLSL
 Plugin 'shmup/vim-sql-syntax'           " SQL
 Plugin 'ekalinin/Dockerfile.vim'        " Dockerfile
 Plugin 'leafgarland/typescript-vim'     " Typescript
+Plugin 'davidhalter/jedi-vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -124,6 +125,25 @@ set foldlevelstart=10 " makes sure things are unfolded by default
 set foldnestmax=10
 set foldmethod=indent
 
+" Auto-detect virtual environment in project root
+function! SetPythonEnvInJedi()
+  let l:venv = finddir('.venv', '.;')
+  if !empty(l:venv)
+    let l:python_path = fnamemodify(l:venv, ':p') . 'bin/python3'
+    if filereadable(l:python_path)
+      let g:jedi#environment_path = fnamemodify(l:venv, ':p')
+    endif
+  endif
+endfunction
+
+augroup PythonVenv
+  autocmd!
+  autocmd FileType python call SetPythonEnvInJedi()
+augroup END
+
+" Jedi
+let g:jedi#completions_enabled = 0
+
 
 syntax enable  " syntax highlighting
 " Commands for odd filetypes
@@ -198,7 +218,8 @@ augroup END
 " Syntax highlighting
 highlight BadWhitespace ctermbg=red guibg=darkred
 augroup syntax_highlighting
-  autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.cu,*.cpp,*.jai,*.sql match BadWhitespace /\s\+$/
+  " autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.cu,*.cpp,*.jai,*.sql match BadWhitespace /\s\+$/
+  autocmd BufRead,BufNewFile *.pyw,*.c,*.h,*.cu,*.cpp,*.jai,*.sql match BadWhitespace /\s\+$/
   autocmd Syntax python syn keyword pythonStatement match case
   autocmd Syntax python syn keyword pythonTodo      NOTE contained
   autocmd Syntax python let python_highlight_all=1
@@ -223,7 +244,6 @@ augroup syntax_highlighting
   autocmd Syntax sql  syn keyword sqlOperator  elseif elsif returns declare language
   autocmd Syntax sql  syn keyword sqlType      record integer double timestamp
 augroup END
-" To remove it
 
 " Checks current syntax highlighting group under cursor
 nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -330,7 +350,6 @@ let g:ParenMatch = {'(': ')', '[': ']', '{': '}', '"': '"', '<': '>', "'": "'"}
 function! CloseParens(opening)
   let l:ending = get(g:ParenMatch, a:opening, '0')
   return printf("%s%s\<Left>", a:opening, l:ending)
-  " return printf("\<Esc>a%s%s\<Left>", a:opening, l:ending)
 endfunction
 inoremap <expr> <C-P> CloseParens('(')
 inoremap <expr> <C-G> CloseParens('"')
@@ -453,7 +472,7 @@ command! Q bd
 
 " vimdiff
 " LO = LOCAL
-nnoremap DH :diffget LO<CR>
 " RE = REMOTE
+nnoremap DH :diffget LO<CR>
 nnoremap DL :diffget RE<CR>
 nnoremap DQ :only<CR>

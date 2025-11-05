@@ -61,8 +61,6 @@ def get_titles(rows : CsvType) -> list[str]:
     assert all(list(row.keys()) == titles for row in rows)
     return titles
 
-
-
 def normalize_key(titles : list[str], key : str) -> str:
     for title in titles:
         if key.lower() == title.lower():
