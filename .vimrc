@@ -142,7 +142,10 @@ augroup PythonVenv
 augroup END
 
 " Jedi
-let g:jedi#completions_enabled = 0
+let g:jedi#completions_enabled = 0 " no auto-completions
+let g:jedi#popup_on_dot = 0 " no popups when you type a .
+let g:jedi#show_call_signatures = "2" " call signatures out of the way
+let g:jedi#usages_command = "" " default is <leader>n which I use
 
 
 syntax enable  " syntax highlighting
@@ -416,8 +419,8 @@ nnoremap <leader>n :silent w<CR>:call GoToNotes()<CR>
 
 
 " sources and goes into vimrc - don't know why :noh is necessary
-nnoremap ,s :source $MYVIMRC<CR> :silent noh<CR>
-nnoremap ,e :e $MYVIMRC<CR>
+nnoremap <leader>s :source $MYVIMRC<CR> :silent noh<CR>
+nnoremap <leader>e :e $MYVIMRC<CR>
 
 " Goes to the next file over, not sure why S-Tab doesn't also work
 nnoremap <leader><Tab> :bn<CR>
