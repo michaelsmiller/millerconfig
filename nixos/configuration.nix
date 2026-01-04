@@ -123,6 +123,10 @@
 
     # development
     gdb
+    clang
+
+    # Wayland
+    wl-clipboard
 
     # Discord replacement, requires some weird permissions
     # vesktop
@@ -143,6 +147,12 @@
       libGL
       glibc
       xorg.libX11
+
+      llvmPackages.libclang
+      libcxx
+
+      cairo
+      freetype
     ];
   };
 

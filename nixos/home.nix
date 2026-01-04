@@ -24,6 +24,8 @@
       pkgs.inkscape
 
       pkgs-unfree.discord
+      pkgs.vesktop
+      pkgs.brave
   ];
 
   programs.obs-studio = {
