@@ -70,6 +70,9 @@
       variant = "";
     };
     videoDrivers = ["nvidia"]; # not sure if this is necessary
+    # extraConfig = ''
+    # xrandr --output HDMI-A-1 --mode "3840x2160" --rate 119.86
+    # '';
   };
 
 

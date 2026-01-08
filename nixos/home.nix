@@ -18,14 +18,16 @@
       pkgs.xclip
       pkgs.git
       pkgs.htop
-
       pkgs.tmux
-      pkgs-unfree.spotify
+
       pkgs.inkscape
 
-      # pkgs-unfree.discord
       pkgs.vesktop
       pkgs.brave
+      pkgs-unfree.spotify
+
+      # school
+      pkgs-unfree.stm32cubemx
   ];
 
   programs.obs-studio = {
