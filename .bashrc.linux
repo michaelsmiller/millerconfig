@@ -12,7 +12,15 @@ export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
 alias jai="jai-linux -x64"
 
 # Nixos
-alias rebuild-nixos="sudo nixos-rebuild switch --flake ${HOME}/millerconfig/nixos#genghis --upgrade"
+rebuild-nixos () {
+  echo "Updating flake"
+  nix flake update
+  echo "Updating channels"
+  sudo nix-channel --update
+  echo "Rebuilding"
+  sudo nixos-rebuild switch --flake "${HOME}/millerconfig/nixos#genghis" --upgrade
+}
+
 collect-garbage () {
   echo "Deleting all but the last 3 boot entries, may need root permission"
   sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system +3

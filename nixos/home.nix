@@ -4,7 +4,7 @@
   programs.home-manager = {
     enable = true;
   };
-  home.stateVersion = "25.05"; # Changing this will change defaults
+  home.stateVersion = "26.05"; # Changing this will change defaults
   home.username = "michael";
   home.homeDirectory = "/home/michael";
 
@@ -23,7 +23,7 @@
       pkgs-unfree.spotify
       pkgs.inkscape
 
-      pkgs-unfree.discord
+      # pkgs-unfree.discord
       pkgs.vesktop
       pkgs.brave
   ];
@@ -43,7 +43,7 @@
 
   programs.firefox = {
     enable = true;
-    package = pkgs-unfree.wrapFirefox inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin.unwrapped {
+    package = pkgs-unfree.wrapFirefox inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin.unwrapped {
       extraPolicies = {
         ExtensionSettings = {
           "*".installation_mode = "blocked"; # blocks addons except for those here

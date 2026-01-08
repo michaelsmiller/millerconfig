@@ -12,7 +12,7 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  system.stateVersion = "25.05"; # default values, we override these in this file
+  system.stateVersion = "26.05"; # default values, we override these in this file
   nix.settings.experimental-features = [ "nix-command" "flakes" ]; # needed for flakes
 
   # services.fwupd.enable = true; # Recommended for updating Linux firmware (required for Framework)
@@ -172,7 +172,7 @@
     flake = inputs.self.outPath;
     flags = [ "--update-input" "nixpkgs" ];
     dates = "04:00";
-    # allowReboot = true; # Probably don't want this
+    allowReboot = false;
   };
 
 
