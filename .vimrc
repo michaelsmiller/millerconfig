@@ -152,6 +152,7 @@ augroup type_setting
   autocmd BufNewFile,BufRead go.mod  set syntax=gomod   " go.mod files
   autocmd BufNewFile,BufRead talosconfig  set syntax=yaml   " Talos client config
   autocmd BufNewFile,BufRead alembic.ini  set syntax=toml   " Alembic config
+  autocmd BufNewFile,BufRead .tmux.*  set syntax=tmux   " tmux config files
 augroup END
 
 " For overriding defaults in vim-commentary plugin

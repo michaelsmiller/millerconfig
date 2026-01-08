@@ -53,7 +53,7 @@
     open = true; # use open source kernel module
     nvidiaSettings = true;
   };
-  # boot.kernelParams = [ "module_blacklist=amdgpu" ]; # If there are black screen issues, maybe this will fix it
+  boot.kernelParams = [ "module_blacklist=amdgpu" ]; # If there are black screen issues, maybe this will fix it
 
 
   services.xserver = {
@@ -108,7 +108,7 @@
   };
 
   # for noise cancelation
-  programs.noisetorch.enable = true; # needs root access
+  # programs.noisetorch.enable = true; # needs root access
 
   environment.systemPackages = with pkgs; [
     lf # directory search thing in terminal
