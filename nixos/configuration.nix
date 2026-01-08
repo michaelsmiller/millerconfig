@@ -94,9 +94,6 @@
   # services.libinput.enable = true; # touchpad input
   # services.touchegg.enable = true; # finger gestures on touch-pad
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
   # Audio
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -106,9 +103,6 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-
-  # for noise cancelation
-  # programs.noisetorch.enable = true; # needs root access
 
   environment.systemPackages = with pkgs; [
     lf # directory search thing in terminal
@@ -135,6 +129,23 @@
     mangohud # performance monitoring
     protonup-qt # installing custom proton versions
   ];
+
+  # Steam
+  programs.steam = {
+    package = pkgs-unfree.steam;
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
+
+  # vim
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
+  };
+
+
 
   # FHS stuff, for software development
   services.envfs.enable = true; # envfs fills out local variables
@@ -183,21 +194,6 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  # Steam
-  programs.steam = {
-    package = pkgs-unfree.steam;
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    localNetworkGameTransfers.openFirewall = true;
-  };
-
-  # vim
-  programs.vim = {
-    enable = true;
-    defaultEditor = true;
-  };
-
   home-manager = {
     extraSpecialArgs = { inherit inputs pkgs-unfree ; };
     users = {
@@ -205,5 +201,6 @@
     };
     useGlobalPkgs = true;
     useUserPackages = true;
+    sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
   };
 }
