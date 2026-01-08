@@ -3,6 +3,8 @@
 # Removes annoying ZSH default shell warnings
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
+export HOMEBREW_EDITOR=vim
+
 # Homebrew
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/Applications/Postgres.app/Contents/Versions/16/bin:$PATH"

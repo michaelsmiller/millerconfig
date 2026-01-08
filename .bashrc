@@ -210,15 +210,6 @@ scp-mailserver () {
 
 alias manage="pdm manage"
 
-alias pgadmin="sudo ${ANACONDA_DIR}/envs/pgadmin/bin/python -m pgadmin4.pgAdmin4"
-database () {
-  pushd ${HOME}/apalis/postgres
-  docker compose down --remove-orphans postgres && docker compose up -d postgres
-  popd
-}
-
-alias dashboard="npm run dev-8501"
-
 # python in general
 # F401 = unused import
 #
