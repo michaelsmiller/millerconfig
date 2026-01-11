@@ -27,7 +27,9 @@
       pkgs-unfree.spotify
 
       # school
-      pkgs-unfree.stm32cubemx
+      pkgs-unfree.stm32cubemx # starting projects
+      pkgs.stlink-gui # flashing/probing without debugging
+      pkgs.openocd # debugging
   ];
 
   programs.obs-studio = {

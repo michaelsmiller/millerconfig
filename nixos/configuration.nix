@@ -97,6 +97,13 @@
   # services.libinput.enable = true; # touchpad input
   # services.touchegg.enable = true; # finger gestures on touch-pad
 
+  # This is necessary to interact with a specific STM32 microchip
+  # My user needs write access to flash code to it and by default
+  # only root can do that
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="374b", MODE="0666"
+  '';
+
   # Audio
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -110,6 +117,8 @@
   environment.systemPackages = with pkgs; [
     lf # directory search thing in terminal
     wget # required for a ton of shit
+    gnumake
+    usbutils # lsusb
     home-manager
 
     #### Laptop stuff
@@ -121,6 +130,7 @@
     # development
     gdb
     clang
+    gcc-arm-embedded
 
     # Wayland
     wl-clipboard

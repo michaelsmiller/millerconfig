@@ -73,6 +73,9 @@ set scrolloff=5 " keep 5 lines above and below cursor
 set linebreak   " don't wrap text in middle of word
 nnoremap <leader><S-H> :silent execute "set colorcolumn=" . (&colorcolumn == "" ? "88" : "")<CR>
 
+" Needed to set this to view certain embedded C files
+set nomodeline
+
 
 " Tabs
 set autoindent " automatically indents next line

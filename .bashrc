@@ -257,6 +257,3 @@ export FZF_CTRL_T_OPTS="
 --bind 'enter:become(vim {} > /dev/tty)'
 --walker-skip .git,__pycache__
 "
-
-# What is this even for?????
-# . "$HOME/.local/bin/env"
