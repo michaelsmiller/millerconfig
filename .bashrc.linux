@@ -28,3 +28,8 @@ collect-garbage () {
   echo "Deleted unused Nix store files"
   nix-collect-garbage
 }
+
+
+# Embedded programming
+alias openocd="openocd -f interface/stlink.cfg -f target/stm32l4x.cfg"
+alias serial-terminal="sudo screen -fn /dev/ttyACM0 115200"

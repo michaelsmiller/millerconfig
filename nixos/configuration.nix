@@ -131,6 +131,7 @@
     gdb
     clang
     gcc-arm-embedded
+    screen
 
     # Wayland
     wl-clipboard
@@ -204,7 +205,7 @@
   users.users.michael = {
     isNormalUser = true;
     description = "Michael Miller";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" ];
   };
 
   home-manager = {

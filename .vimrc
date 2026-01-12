@@ -300,6 +300,7 @@ iabbrev subsitution substitution
 iabbrev sefl self
 iabbrev NOne None
 iabbrev fro for
+iabbrev slient silent
 
 " Automatically ends paste mode when leaving insert mode
 au InsertLeave * set nopaste
@@ -401,8 +402,9 @@ noremap <silent> <Space> :silent noh<Bar>echo<CR>
 set mouse=a
 
 " For quick run of some makefiles or whatever I need at the moment
-nnoremap <leader>m :silent w<CR>:!clear&&python %:p<CR>
+" nnoremap <leader>m :silent w<CR>:!clear&&python %:p<CR>
 " nnoremap <leader>m :w<CR>:!clear&&jai -x64 %:p<CR>
+nnoremap <leader>m :silent w<CR>:!clear&&make<CR>
 
 
 " If we are editing file ~/dir/.../filename
