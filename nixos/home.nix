@@ -30,6 +30,8 @@
       pkgs-unfree.stm32cubemx # starting projects
       pkgs.stlink-gui # flashing/probing without debugging
       pkgs.openocd # debugging
+      pkgs.libreoffice # pptx
+      pkgs.kicad
   ];
 
   programs.obs-studio = {

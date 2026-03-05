@@ -4,6 +4,8 @@ alias pg_dump="docker exec -it postgres-postgres-1 pg_dump"
 
 # graphics
 export __NV_DISABLE_EXPLICIT_SYNC=1
+# export WLR_NO_HARDWARE_CURSORS=1
+# export NIXOS_OZONE_WL=1
 export QT_QPA_PLATFORM=xcb
 
 # Jai
@@ -33,3 +35,7 @@ collect-garbage () {
 # Embedded programming
 alias openocd="openocd -f interface/stlink.cfg -f target/stm32l4x.cfg"
 alias serial-terminal="sudo screen -fn /dev/ttyACM0 115200"
+flash-chip-and-debug () {
+  make
+  arm-none-eabi-gdb $(realpath build/*.elf --relative-to .)
+}

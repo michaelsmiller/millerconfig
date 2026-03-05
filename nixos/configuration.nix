@@ -56,6 +56,7 @@
   boot.kernelParams = [ "module_blacklist=amdgpu" ]; # If there are black screen issues, maybe this will fix it
 
 
+
   services.xserver = {
     enable = true;
 
@@ -77,6 +78,7 @@
 
 
   # Wayland / Plasma
+
   services.desktopManager.plasma6 = {
     enable = true;
     enableQt5Integration = false;
@@ -89,8 +91,24 @@
     };
   };
 
+
+  # Hyperland
+
+  # hardware.opengl.enable = true;
+  # programs.hyprland = {
+  #   enable = true;
+  #   xwayland.enable = true;
+  # };
+  # xdg.portal = {
+  #   enable = true;
+  #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # };
+
+
   environment.variables = {
-    __NV_DISABLE_EXPLICIT_SYNC=1; # Needed for OBS + Wayland + Nvidia to work properly
+    __NV_DISABLE_EXPLICIT_SYNC=1; # Needed for OBS + WL + Nvidia to work properly
+    NIXOS_OZONE_WL=1; # hints electron apps to use WL
+    WLR_NO_HARDWARE_CURSORS=1;
   };
 
 
@@ -117,8 +135,6 @@
   environment.systemPackages = with pkgs; [
     lf # directory search thing in terminal
     wget # required for a ton of shit
-    gnumake
-    usbutils # lsusb
     home-manager
 
     #### Laptop stuff
@@ -129,15 +145,20 @@
 
     # development
     gdb
-    clang
+    clang # for jai
+    gnumake # make
+    usbutils # lsusb
     gcc-arm-embedded
-    screen
+    screen # for serial port listening
 
     # Wayland
     wl-clipboard
 
-    # Discord replacement, requires some weird permissions
-    # vesktop
+    # Hyprland
+    # waybar
+    # dunst # notification daemon
+    # # libnotify # possibly also necessary for notifications?
+    # hyprpolkitagent # what is going on
 
     # steam related
     mangohud # performance monitoring
@@ -171,7 +192,7 @@
       util-linux
       libGL
       glibc
-      xorg.libX11
+      libx11
 
       llvmPackages.libclang
       libcxx
@@ -192,13 +213,13 @@
     };
   };
 
-  system.autoUpgrade = {
-    enable = true;
-    flake = inputs.self.outPath;
-    flags = [ "--update-input" "nixpkgs" ];
-    dates = "04:00";
-    allowReboot = false;
-  };
+  # system.autoUpgrade = {
+  #   enable = true;
+  #   flake = inputs.self.outPath;
+  #   flags = [ "--update-input" "nixpkgs" ];
+  #   dates = "04:00";
+  #   allowReboot = false;
+  # };
 
 
   # User settings and packages
