@@ -163,6 +163,8 @@
     # steam related
     mangohud # performance monitoring
     protonup-qt # installing custom proton versions
+
+    v4l-utils
   ];
 
   # Steam
@@ -226,7 +228,7 @@
   users.users.michael = {
     isNormalUser = true;
     description = "Michael Miller";
-    extraGroups = [ "networkmanager" "wheel" "dialout" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" "video" "audio" ];
   };
 
   home-manager = {
